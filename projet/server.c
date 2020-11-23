@@ -23,7 +23,7 @@ int main (int argc, char *argv[]) {
   int port = atoi(argv[1]);
   int valid = 1; 
   char msg[RCVSIZE];
-  char head[20];
+  char head[11];
 
   // On crée la socket
   int server_desc = socket(AF_INET, SOCK_DGRAM , 0);
@@ -38,8 +38,6 @@ int main (int argc, char *argv[]) {
   adresse.sin_family= AF_INET;
   adresse.sin_port= htons(port);
   adresse.sin_addr.s_addr=htonl(INADDR_ANY);
-
-  int port_donnee = 1001;
 
   //On fait correspondre la socket et le fichier
   if(bind(server_desc, (struct sockaddr*)&adresse, sizeof(adresse)) < 0){
@@ -63,7 +61,7 @@ int main (int argc, char *argv[]) {
       printf("SYN RECEIVED\n");
       //Creation de la socket de donnee
       struct sockaddr_in adresse_donnee;
-      port_donnee++;
+      int port_donnee = 3030;
       int valid=1;
       char msg_donnee[RCVSIZE];
       int server_desc_donnee = socket(AF_INET, SOCK_DGRAM , 0);
@@ -78,16 +76,16 @@ int main (int argc, char *argv[]) {
       adresse_donnee.sin_port= htons(port_donnee);
       adresse_donnee.sin_addr.s_addr=htonl(INADDR_ANY);
       //On fait correspondre
-      int n = bind(server_desc_donnee, (struct sockaddr*)&adresse_donnee, sizeof(adresse_donnee));
-      if (n < 0){
-        printf("UDP bind failed \n");
-	exit(EXIT_FAILURE);
+      if(bind(server_desc_donnee, (struct sockaddr*)&adresse_donnee, sizeof(adresse_donnee)) < 0){
+        perror("UDP bind failed \n");
+        exit(EXIT_FAILURE);
       }
       strcpy(head,"SYN-ACK");
       char port_str[4];
-      sprintf(port_str,"%d",port_donnee);
+      sprintf(port_str,"%d\n",port_donnee);
       strcat(head,port_str);
       printf("Head : %s \n",head);
+//      strcpy(msg,"SYN-ACK_3030");
       if (sendto(server_desc, head, strlen(head) , 0 , (struct sockaddr *) &adresse, sizeof(adresse)) < 0){
         perror("sendto");
         exit(EXIT_FAILURE);
