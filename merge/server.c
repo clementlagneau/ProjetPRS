@@ -51,37 +51,66 @@ int main (int argc, char *argv[]) {
   int not_initialized = 1;
   while (cont) {
   printf("On ecoute ici\n");
-    printf("Receive UDP\n" );
-    int temp = sizeof(adresse);
     if(not_initialized) {
-      printf("Wait for SYN\n");
-      int n = recvfrom(server_desc, msg, RCVSIZE, 0, (struct sockaddr *) &adresse, (socklen_t *) &temp);
-      if(n < 0){
-        perror("recvfrom failed \n");
-        exit(EXIT_FAILURE);
-      }
-      printf("Message 1 %s",msg);
-      if(strncmp(msg,"SYN", 3) == 0){
-        printf("SYN RECEIVED\n");
-        strcpy(msg,"SYN-ACK");
-        if (sendto(server_desc, msg, strlen(msg) , 0 , (struct sockaddr *) &adresse, sizeof(adresse)) < 0){
-          perror("sendto");
-          exit(EXIT_FAILURE);
-        }
-        printf("SYN-ACK sent");
-        printf("Wait for ACK\n");
-        n = recvfrom(server_desc, msg, RCVSIZE, 0, (struct sockaddr *) &adresse, (socklen_t *) &temp);
+        printf("On ecoute ici\n");
+        printf("Wait for SYN\n");
+        int temp = sizeof(adresse);
+        int n = recvfrom(server_desc, msg, RCVSIZE, 0, (struct sockaddr *) &adresse, (socklen_t *) &temp);
         if(n < 0){
           perror("recvfrom failed \n");
           exit(EXIT_FAILURE);
         }
-        if(strncmp(msg,"ACK", 3) == 0){
-        printf("ACK RECEIVED\n");
-        not_initialized=0;
+        printf("Message 1 %s \n",msg);
+        if(strncmp(msg,"SYN", 3) == 0){
+          printf("SYN RECEIVED\n");
+          //Creation de la socket de donnee
+          struct sockaddr_in adresse_donnee;
+          int port_donnee = 3030;
+          int valid=1;
+          char msg_donnee[RCVSIZE];
+          int server_desc_donnee = socket(AF_INET, SOCK_DGRAM , 0);
+          //Au cas où
+          if (server_desc < 0) { 
+            perror("cannot create socket\n");
+            return EXIT_FAILURE;
+          }
+          //Pour l OS au cas ou
+          setsockopt(server_desc_donnee, SOL_SOCKET, SO_REUSEADDR, &valid, sizeof(int));
+          adresse_donnee.sin_family= AF_INET;
+          adresse_donnee.sin_port= htons(port_donnee);
+          adresse_donnee.sin_addr.s_addr=htonl(INADDR_ANY);
+          //On fait correspondre
+          if(bind(server_desc_donnee, (struct sockaddr*)&adresse_donnee, sizeof(adresse_donnee)) < 0){
+            perror("UDP bind failed \n");
+            exit(EXIT_FAILURE);
+          }
+          char head[11];
+          strcpy(head,"SYN-ACK_");
+          char port_str[6];
+          sprintf(port_str,"%d",port_donnee);
+          strcat(head,port_str);
+          printf("Head : %s \n",head);
+    //      strcpy(msg,"SYN-ACK_3030");
+          if (sendto(server_desc, head, strlen(head) , 0 , (struct sockaddr *) &adresse, sizeof(adresse)) < 0){
+            perror("sendto");
+            exit(EXIT_FAILURE);
+          }
+          printf("SYN-ACK sent\n");
+          printf("Wait for ACK\n");
+          n = recvfrom(server_desc, msg, RCVSIZE, 0, (struct sockaddr *) &adresse, (socklen_t *) &temp);
+          if(n < 0){
+            perror("recvfrom failed \n");
+            exit(EXIT_FAILURE);
+          }
+          if(strncmp(msg,"ACK", 3) == 0){
+            printf("ACK RECEIVED\n");
+          }
         }
-      }
+        printf("3 WAY Handshake OK \n");
+        not_initialized = 0;
     }
-    int n = recvfrom(server_desc, (char *)msg, RCVSIZE,MSG_WAITALL, ( struct sockaddr *) &adresse, &temp); 
+    int temp = sizeof(adresse);
+    int n = recvfrom(server_desc_donnee, (char *)msg, RCVSIZE,MSG_WAITALL, ( struct sockaddr *) &adresse, &temp); 
     if(n < 0){
       perror("recvfrom failed \n");
       exit(EXIT_FAILURE);
@@ -148,9 +177,9 @@ int main (int argc, char *argv[]) {
                 numbytes = RCVSIZE;
             }
             printf("ok copy\n");
-            sendto(server_desc,(const char*)msg, numbytes ,MSG_CONFIRM, (const struct sockaddr *) &adresse,temp);
+            sendto(server_desc_donnee,(const char*)msg, numbytes ,MSG_CONFIRM, (const struct sockaddr *) &adresse,temp);
             //printf("MSG : %s", msg);
-            n = recvfrom(server_desc, (char *)msg, RCVSIZE,MSG_WAITALL, (struct sockaddr *) &adresse,&temp); 
+            n = recvfrom(server_desc_donnee, (char *)msg, RCVSIZE,MSG_WAITALL, (struct sockaddr *) &adresse,&temp); 
             if(n < 0){
               perror("recvfrom failed \n");
               exit(EXIT_FAILURE);
@@ -180,9 +209,9 @@ int main (int argc, char *argv[]) {
   printf("bien sorti de la boucle\n");
   char message[RCVSIZE];
   strcpy(message,"END");
-  sendto(server_desc, message, RCVSIZE, MSG_CONFIRM, (const struct sockaddr *) &adresse,temp);
+  sendto(server_desc_donnee, message, RCVSIZE, MSG_CONFIRM, (const struct sockaddr *) &adresse,temp);
   printf("Waiting for final ACK\n");
-  n = recvfrom(server_desc, (char *)msg, RCVSIZE,MSG_WAITALL, (struct sockaddr *) &adresse,&temp); 
+  n = recvfrom(server_desc_donnee, (char *)msg, RCVSIZE,MSG_WAITALL, (struct sockaddr *) &adresse,&temp); 
   msg[n] = '\0';
   printf("Final ack done.\n");
   }
