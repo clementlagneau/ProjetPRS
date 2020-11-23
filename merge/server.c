@@ -12,18 +12,18 @@
 #define RCVSIZE 1024
 
 int main (int argc, char *argv[]) {
-// On récupère le port d'écoute t'sais
+  // Verification de la commande d execution
   if(argc < 2){
     printf("Utilisez la syntaxe ./server PORT\n");
     return(EXIT_FAILURE);
   }
-
+  
+  //Craft de notre adresse
   struct sockaddr_in adresse;
   int port = atoi(argv[1]);
   int valid = 1; 
   char msg[RCVSIZE];
   FILE *file;
-  //char blanmsg[RCVSIZE];
 
   //On crée la socket
   int server_desc = socket(AF_INET, SOCK_DGRAM , 0);
@@ -31,9 +31,10 @@ int main (int argc, char *argv[]) {
   //Au cas où
   if (server_desc < 0) { 
     perror("cannot create socket\n");
-    return -1;
+    return(EXIT_FAILURE);
   }
 
+  //Le RE USE au cas ou pour l OS
   setsockopt(server_desc, SOL_SOCKET, SO_REUSEADDR, &valid, sizeof(int));
   adresse.sin_family= AF_INET;
   adresse.sin_port= htons(port);
