@@ -24,9 +24,12 @@ int main (int argc, char *argv[]) {
   int valid = 1; 
   char msg[RCVSIZE];
   FILE *file;
+  char head[11];
 
   //On crée la socket
   int server_desc = socket(AF_INET, SOCK_DGRAM , 0);
+  int server_desc_donnee;
+  struct sockaddr_in adresse_donnee;
 
   //Au cas où
   if (server_desc < 0) { 
@@ -64,11 +67,10 @@ int main (int argc, char *argv[]) {
         if(strncmp(msg,"SYN", 3) == 0){
           printf("SYN RECEIVED\n");
           //Creation de la socket de donnee
-          struct sockaddr_in adresse_donnee;
           int port_donnee = 3030;
           int valid=1;
           char msg_donnee[RCVSIZE];
-          int server_desc_donnee = socket(AF_INET, SOCK_DGRAM , 0);
+          server_desc_donnee = socket(AF_INET, SOCK_DGRAM , 0);
           //Au cas où
           if (server_desc < 0) { 
             perror("cannot create socket\n");
@@ -84,13 +86,11 @@ int main (int argc, char *argv[]) {
             perror("UDP bind failed \n");
             exit(EXIT_FAILURE);
           }
-          char head[11];
-          strcpy(head,"SYN-ACK_");
-          char port_str[6];
+          strcpy(head,"SYN-ACK");
+          char port_str[4];
           sprintf(port_str,"%d",port_donnee);
           strcat(head,port_str);
           printf("Head : %s \n",head);
-    //      strcpy(msg,"SYN-ACK_3030");
           if (sendto(server_desc, head, strlen(head) , 0 , (struct sockaddr *) &adresse, sizeof(adresse)) < 0){
             perror("sendto");
             exit(EXIT_FAILURE);
@@ -110,13 +110,14 @@ int main (int argc, char *argv[]) {
         not_initialized = 0;
     }
     int temp = sizeof(adresse);
-    int n = recvfrom(server_desc_donnee, (char *)msg, RCVSIZE,MSG_WAITALL, ( struct sockaddr *) &adresse, &temp); 
+    int n = recvfrom(server_desc_donnee, (char *)msg, RCVSIZE,MSG_WAITALL, ( struct sockaddr *) &adresse_donnee, &temp); 
     if(n < 0){
       perror("recvfrom failed \n");
       exit(EXIT_FAILURE);
     }
     // ON EST CONNECTE
     msg[n] = '\0';
+    printf("%s",msg); 
     file = NULL;
     if((file=fopen(msg,"r")) == NULL){
       printf("Not able to open file\n");
@@ -177,23 +178,23 @@ int main (int argc, char *argv[]) {
                 numbytes = RCVSIZE;
             }
             printf("ok copy\n");
-            sendto(server_desc_donnee,(const char*)msg, numbytes ,MSG_CONFIRM, (const struct sockaddr *) &adresse,temp);
+            sendto(server_desc_donnee,(const char*)msg, numbytes ,MSG_CONFIRM, (const struct sockaddr *) &adresse_donnee,temp);
             //printf("MSG : %s", msg);
-            n = recvfrom(server_desc_donnee, (char *)msg, RCVSIZE,MSG_WAITALL, (struct sockaddr *) &adresse,&temp); 
+            n = recvfrom(server_desc_donnee, (char *)msg, RCVSIZE,MSG_WAITALL, (struct sockaddr *) &adresse_donnee,&temp); 
             if(n < 0){
               perror("recvfrom failed \n");
               exit(EXIT_FAILURE);
             }
             msg[n] = '\0';
-            
+            printf("Raz envoie %s\n",msg);
             char numack_s[7] = "";
-            strncat(numack_s, strtok(msg,"ACK_"), 6);
+            strncat(numack_s, strtok(msg,"ACK"), 6);
             int numack = atoi(numack_s);
             //int numack = atoi(strtok(msg,"ACK_"));
             
             if( numack == num_seq){
                 printf("String numack : %s\n",numack_s);
-                printf("Nous avons recu %d",numack);
+                printf("Nous avons recu %d\n",numack);
                 ack = 1;
                 printf("Acquitement de %d est reussi\n",num_seq);
             }
@@ -209,9 +210,9 @@ int main (int argc, char *argv[]) {
   printf("bien sorti de la boucle\n");
   char message[RCVSIZE];
   strcpy(message,"END");
-  sendto(server_desc_donnee, message, RCVSIZE, MSG_CONFIRM, (const struct sockaddr *) &adresse,temp);
+  sendto(server_desc_donnee, message, RCVSIZE, MSG_CONFIRM, (const struct sockaddr *) &adresse_donnee,temp);
   printf("Waiting for final ACK\n");
-  n = recvfrom(server_desc_donnee, (char *)msg, RCVSIZE,MSG_WAITALL, (struct sockaddr *) &adresse,&temp); 
+  n = recvfrom(server_desc_donnee, (char *)msg, RCVSIZE,MSG_WAITALL, (struct sockaddr *) &adresse_donnee,&temp); 
   msg[n] = '\0';
   printf("Final ack done.\n");
   }
