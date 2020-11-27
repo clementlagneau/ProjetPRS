@@ -5,7 +5,6 @@ import time
 import sys
 
 
-
 def main():
     if len(sys.argv) == 2 and 1000 <= int(sys.argv[1]) <= 9999 :
         port = int(sys.argv[1])
@@ -57,14 +56,19 @@ def main():
         for k in range(len(file_cut)):
             ACK = False
             while not ACK :
-                print("Send slice "+str(k)+" of total "+str(tot_seq))
-                sock_data.sendto((bytes(str(k).zfill(6),'utf-8'))+file_cut[k], address_client)
-                print("Wait ACK")
-                data, address_client = sock_data.recvfrom(SIZE_BUFFER)
-                print(data.decode() + "Et " + data.decode()[:9])
-                if data.decode()[:9] == "ACK"+(str(k).zfill(6)):
-                    print("Received "+data.decode())
-                    ACK = True
+                sock_data.settimeout(0.005)
+                try:
+                    print("Send slice "+str(k)+" of total "+str(tot_seq))
+                    sock_data.sendto((bytes(str(k).zfill(6),'utf-8'))+file_cut[k], address_client)
+                    print("Wait ACK")
+                    data, address_client = sock_data.recvfrom(SIZE_BUFFER)
+                    print(data.decode() + "Et " + data.decode()[:9])
+                    if data.decode()[:9] == "ACK"+(str(k).zfill(6)):
+                        print("Received "+data.decode())
+                        ACK = True
+                except socket.error:
+                    print("Raz est trop fort")
+        sock_data.sendto("FIN".encode(), address_client)
         break
     print("File send")
 
