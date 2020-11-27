@@ -1,4 +1,3 @@
-#
 #!/usr/bin/env python3
 import socket
 import os
@@ -68,7 +67,7 @@ def main():
                             print("Received "+data.decode())
                             ACK = True
                     except socket.error:
-                        print("Raz est trop fort")
+                        print("Retrasmition")
             sock_data.sendto("FIN".encode(), address_client)
             break
     print("File send")
