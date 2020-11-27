@@ -56,12 +56,13 @@ def main():
         #On envoie le fichier petit a petit
         for k in range(len(file_cut)):
             ACK = False
-            while not ACK:
+            while not ACK :
                 print("Send slice "+str(k)+" of total "+str(tot_seq))
-                sock_data.sendto(k.to_bytes(6,byteorder='big')+file_cut[k], address_client)
+                sock_data.sendto((bytes(str(k).zfill(6),'utf-8'))+file_cut[k], address_client)
                 print("Wait ACK")
                 data, address_client = sock_data.recvfrom(SIZE_BUFFER)
-                if data.decode()[:11] == "ACK"+str(k):
+                print(data.decode() + "Et " + data.decode()[:9])
+                if data.decode()[:9] == "ACK"+(str(k).zfill(6)):
                     print("Received "+data.decode())
                     ACK = True
         break
