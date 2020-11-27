@@ -1,3 +1,4 @@
+#
 #!/usr/bin/env python3
 import socket
 import os
@@ -52,24 +53,24 @@ def main():
             file_cut = []
             for k in range(tot_seq+1):
                 file_cut.append(content[k * SIZE_BUFFER : (k+1) * SIZE_BUFFER])
-        #On envoie le fichier petit a petit
-        for k in range(len(file_cut)):
-            ACK = False
-            while not ACK :
-                sock_data.settimeout(0.005)
-                try:
-                    print("Send slice "+str(k)+" of total "+str(tot_seq))
-                    sock_data.sendto((bytes(str(k).zfill(6),'utf-8'))+file_cut[k], address_client)
-                    print("Wait ACK")
-                    data, address_client = sock_data.recvfrom(SIZE_BUFFER)
-                    print(data.decode() + "Et " + data.decode()[:9])
-                    if data.decode()[:9] == "ACK"+(str(k).zfill(6)):
-                        print("Received "+data.decode())
-                        ACK = True
-                except socket.error:
-                    print("Raz est trop fort")
-        sock_data.sendto("FIN".encode(), address_client)
-        break
+            #On envoie le fichier petit a petit
+            for k in range(len(file_cut)):
+                ACK = False
+                while not ACK :
+                    sock_data.settimeout(0.01)
+                    try:
+                        print("Send slice "+str(k)+" of total "+str(tot_seq))
+                        sock_data.sendto((bytes(str(k).zfill(6),'utf-8'))+file_cut[k], address_client)
+                        print("Wait ACK")
+                        data, address_client = sock_data.recvfrom(SIZE_BUFFER)
+                        print(data.decode() + "Et " + data.decode()[:9])
+                        if data.decode()[:9] == "ACK"+(str(k).zfill(6)):
+                            print("Received "+data.decode())
+                            ACK = True
+                    except socket.error:
+                        print("Raz est trop fort")
+            sock_data.sendto("FIN".encode(), address_client)
+            break
     print("File send")
 
 
