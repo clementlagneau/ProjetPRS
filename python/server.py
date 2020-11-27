@@ -6,12 +6,21 @@ import sys
 
 
 def main():
+    """
     if len(sys.argv) == 2 and 1000 <= int(sys.argv[1]) <= 9999 :
         port = int(sys.argv[1])
     else :
         print("Utilisation : /server Nport")
         return(-1)
+    """
     SIZE_BUFFER = 1024
+    if len(sys.argv) == 3 and 1000 <= int(sys.argv[1]) <= 9999 :
+        port = int(sys.argv[1])
+        timeout = int(sys.argv[2])
+    else :
+        print("Utilisation : /server Nport")
+        return(-1)
+
 
     # Creation des sockets
     sock_init = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -56,7 +65,7 @@ def main():
             for k in range(len(file_cut)):
                 ACK = False
                 while not ACK :
-                    sock_data.settimeout(0.01)
+                    sock_data.settimeout(timeout)
                     try:
                         print("Send slice "+str(k)+" of total "+str(tot_seq))
                         sock_data.sendto((bytes(str(k).zfill(6),'utf-8'))+file_cut[k], address_client)
