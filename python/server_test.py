@@ -7,12 +7,23 @@ import sys
 import copy
 
 def main():
+    """
     if len(sys.argv) == 2 and 1000 <= int(sys.argv[1]) <= 9999 :
         port = int(sys.argv[1])
     else :
         print("Utilisation : /server Nport")
         return(-1)
+    """
     SIZE_BUFFER = 1024
+    if len(sys.argv) == 3 and 1000 <= int(sys.argv[1]) <= 9999 :
+      port = int(sys.argv[1])
+      timeout = int(sys.argv[2])/10000
+    else :
+      print("Utilisation : /server Nport")
+      return(-1)
+
+
+
 
     timeout = 0.00001
 
