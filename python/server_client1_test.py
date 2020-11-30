@@ -14,7 +14,7 @@ def main():
       print("Utilisation : /server Nport")
       return(-1)
 
-    timeout = 0.02
+    timeout = 0.06
     taille_fenetre = 100
     dernier_ack = 0
 
@@ -98,7 +98,6 @@ def main():
                         else:
                             print("Pass ACK")
                             change = False
-                            sock_data.settimeout(timeout/10)
                 except socket.error:
                     debut = True
                     change = False
