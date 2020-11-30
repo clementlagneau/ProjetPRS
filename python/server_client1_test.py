@@ -111,8 +111,8 @@ def main():
                             if ack_ignore > taille_fenetre:
                                 debut = True
                 except socket.error:
-                    timeout = 0.004
-                    taille_fenetre = 20
+                    timeout = 0.008
+                    taille_fenetre = 25
                     debut = True
                     change = False
                     print("Retransmit")
