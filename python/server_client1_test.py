@@ -77,6 +77,7 @@ def main():
                             sock_data.sendto((bytes(str(k).zfill(6),'utf-8'))+file_cut[k-1], address_client)
                             print("Send slice " + str(k) + " of total " + str(tot_seq) + " of ",
                                   len(file_cut[k-1]), " bits")
+                        debut = False
                     if change:
                         fenetre_haut = min(dernier_ack+1+taille_fenetre,tot_seq)
                         print("Send slice "+str(dernier_ack+delta+1)+"to"+str(fenetre_haut))
@@ -90,11 +91,11 @@ def main():
                         print("Received "+data.decode())
                         recu = int(data.decode()[3:9])
                         if dernier_ack < recu:
-                            changer = True
+                            change = True
                             delta = dernier_ack - recu
                             dernier_ack = recu
                         else:
-                            changer = False
+                            change = False
                 except socket.error:
                     debut = True
                     print("Retransmit")
