@@ -92,7 +92,7 @@ def main():
                         recu = int(data.decode()[3:9])
                         if dernier_ack < recu:
                             change = True
-                            delta = recu - dernier_ack
+                            delta = min(recu - dernier_ack,taille_fenetre)
                             dernier_ack = recu
                         else:
                             change = False
