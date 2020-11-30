@@ -60,7 +60,7 @@ def main():
         print("File send")
         return(1)
 
-    timeout = 0.01
+    timeout = 0.001
 
     # Creation des sockets
     sock_init = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
