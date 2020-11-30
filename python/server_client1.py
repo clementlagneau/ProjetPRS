@@ -76,7 +76,7 @@ def main():
                               len(file_cut[k-1]), " bits")
                     print("Wait ACK")
                     data, address_client = sock_data.recvfrom(SIZE_BUFFER)
-                    if data.decode()[:4] == "ACK":
+                    if data.decode()[:3] == "ACK":
                         print("Received "+data.decode())
                         dernier_ack = int(data.decode()[3:9])
                 except socket.error:
