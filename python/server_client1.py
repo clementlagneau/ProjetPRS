@@ -81,8 +81,9 @@ def main():
                         dernier_ack = int(data.decode()[3:9])
                 except socket.error:
                     print("Retransmit")
-            sock_data.sendto("FIN".encode(), address_client)
-            break
+        break
+    print("Send FIN")
+    sock_data.sendto("FIN".encode(), address_client)
     #DEBUG
     print("File send")
 
