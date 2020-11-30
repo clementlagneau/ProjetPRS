@@ -83,7 +83,7 @@ def main():
                     print("Retransmit")
         break
     print("Send FIN")
-    time.sleep(0.001)
+    time.sleep(timeout)
     sock_data.sendto("FIN".encode(), address_client)
     #DEBUG
     print("File send")
