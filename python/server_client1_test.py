@@ -108,7 +108,7 @@ def main():
                             change = False
                             ack_ignore +=1
                             ack_ignore_debug +=1
-                            if ack_ignore > 40:
+                            if ack_ignore > taille_fenetre:
                                 debut = True
                 except socket.error:
                     timeout = 0.001
@@ -122,7 +122,7 @@ def main():
     time.sleep(timeout)
     sock_data.sendto("FIN".encode(), address_client)
     #DEBUG
-    print("Retransmisions ",retransmission," | ACK_Ignores ", ack_ignore, " | Fenetre continue ", fenetre_continue)
+    print("Retransmisions ",retransmission," | ACK_Ignores ", ack_ignore_debug, " | Fenetre continue ", fenetre_continue)
     print("File send")
 
 
