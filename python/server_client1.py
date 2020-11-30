@@ -69,7 +69,7 @@ def main():
                         last_ack = True
                         break
                     fenetre_haut = min(dernier_ack+1+taille_fenetre,tot_seq)
-                    print("Send slice "+str(dernier_ack+1)+"to"+str(dernier_ack+1+taille_fenetre))
+                    print("Send slice "+str(dernier_ack+1)+"to"+str(fenetre_haut))
                     for k in range(dernier_ack+1,fenetre_haut+1):
                         sock_data.sendto((bytes(str(k).zfill(6),'utf-8'))+file_cut[k-1], address_client)
                         print("Send slice " + str(k) + " of total " + str(tot_seq) + " of ",
