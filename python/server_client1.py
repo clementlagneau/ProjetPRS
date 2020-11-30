@@ -47,7 +47,6 @@ def main():
     print("We are connected")
 
     #DEBUG
-    somme = 0
     #Maintenant on fait le reste :
     while True:
         data, address_client = sock_data.recvfrom(SIZE_BUFFER)
@@ -66,26 +65,26 @@ def main():
             while (not last_ack):
                 sock_data.settimeout(timeout)
                 try:
-                    fenetre_haut = max(dernier_ack+taille_fenetre,tot_seq)
-                    print("Send slice "+str(k+1)+"to"+str(dernier_ack+taille_fenetre)+" of total "+str(tot_seq)+" of ",len((bytes(str(k).zfill(6),'utf-8'))+file_cut[k])-6," bits")
-                    for k in range(dernier_ack,fenetre_haut):
-                        sock_data.sendto((bytes(str(k+1).zfill(6),'utf-8'))+file_cut[k], address_client)
-                    print("Wait ACK")
-                    data, address_client = sock_data.recvfrom(SIZE_BUFFER)
-                    if data.decode()[:9] == "ACK"+(str(k+1).zfill(6)):
-                        print("Received "+data.decode())
-                        dernier_ack = int(data.decode()[3:9])
-                        somme += len(bytes(str(k).zfill(6),'utf-8')+file_cut[k]) - 6
                     if dernier_ack == tot_seq:
                         last_ack = True
+                        break
+                    fenetre_haut = min(dernier_ack+1+taille_fenetre,tot_seq)
+                    print("Send slice "+str(k+1)+"to"+str(dernier_ack+taille_fenetre))
+                    for k in range(dernier_ack+1,fenetre_haut+1):
+                        sock_data.sendto((bytes(str(k).zfill(6),'utf-8'))+file_cut[k-1], address_client)
+                        print("Send slice " + str(k) + " of total " + str(tot_seq) + " of ",
+                              len(file_cut[k-1]), " bits")
+                    print("Wait ACK")
+                    data, address_client = sock_data.recvfrom(SIZE_BUFFER)
+                    if data.decode()[:4] == "ACK":
+                        print("Received "+data.decode())
+                        dernier_ack = int(data.decode()[3:9])
                 except socket.error:
                     print("Retransmit")
             sock_data.sendto("FIN".encode(), address_client)
             break
     #DEBUG
-    print(somme)
     print("File send")
-#TEST
 
 
 
