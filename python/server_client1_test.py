@@ -94,8 +94,8 @@ def main():
                         print("Received "+data.decode())
                         recu = int(data.decode()[3:9])
                         if dernier_ack < recu:
-                            timeout = 0.08
-                            taille_fenetre = 55
+                            timeout += 0.001
+                            taille_fenetre += 4
                             print("ACK > last one")
                             change = True
                             delta = min(recu - dernier_ack,taille_fenetre)
@@ -106,8 +106,8 @@ def main():
                             change = False
                             ack_ignore +=1
                 except socket.error:
-                    timeout = 0.02
-                    taille_fenetre = 25
+                    timeout = 0.002
+                    taille_fenetre = 20
                     debut = True
                     change = False
                     print("Retransmit")
