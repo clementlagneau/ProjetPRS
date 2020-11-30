@@ -14,8 +14,8 @@ def main():
       print("Utilisation : /server Nport")
       return(-1)
 
-    timeout = 0.01
-    taille_fenetre = 60
+    timeout = 0.001
+    taille_fenetre = 200
     dernier_ack = 0
 
     # Creation des sockets
