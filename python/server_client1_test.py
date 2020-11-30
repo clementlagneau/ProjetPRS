@@ -48,6 +48,7 @@ def main():
 
     #DEBUG
     retransmission = 0
+    ack_ignore_debug = 0
     ack_ignore = 0
     fenetre_continue = 0
     #Maintenant on fait le reste :
@@ -74,6 +75,7 @@ def main():
                         last_ack = True
                         break
                     if debut:
+                        ack_ignore = 0
                         debut = False
                         fenetre_haut = min(dernier_ack+1+taille_fenetre,tot_seq)
                         print("Send full slice "+str(dernier_ack+1)+"to"+str(fenetre_haut))
@@ -105,9 +107,9 @@ def main():
                             print("Pass ACK")
                             change = False
                             ack_ignore +=1
+                            ack_ignore_debug +=1
                             if ack_ignore > 40:
                                 debut = True
-                                ack_ignore = 0
                 except socket.error:
                     timeout = 0.001
                     taille_fenetre = 10
