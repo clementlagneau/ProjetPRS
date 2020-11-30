@@ -108,7 +108,7 @@ def main():
                             change = False
                             ack_ignore +=1
                             ack_ignore_debug +=1
-                            if ack_ignore > taille_fenetre:
+                            if ack_ignore > taille_fenetre//4:
                                 debut = True
                 except socket.error:
                     timeout = 0.008
