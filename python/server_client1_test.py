@@ -91,10 +91,12 @@ def main():
                         print("Received "+data.decode())
                         recu = int(data.decode()[3:9])
                         if dernier_ack < recu:
+                            print("ACK > last one")
                             change = True
                             delta = min(recu - dernier_ack,taille_fenetre)
                             dernier_ack = recu
                         else:
+                            print("Pass ACK")
                             change = False
                 except socket.error:
                     debut = True
