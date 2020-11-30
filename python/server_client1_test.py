@@ -14,8 +14,8 @@ def main():
       print("Utilisation : /server Nport")
       return(-1)
 
-    timeout = 0.06
-    taille_fenetre = 100
+    timeout = 0.02
+    taille_fenetre = 70
     dernier_ack = 0
 
     # Creation des sockets
@@ -81,7 +81,7 @@ def main():
                     if change:
                         fenetre_haut = min(dernier_ack+1+taille_fenetre,tot_seq)
                         print("Send little slice "+str(dernier_ack+1+taille_fenetre-delta+1)+"to"+str(fenetre_haut))
-                        for k in range(dernier_ack+1+taille_fenetre-delta,fenetre_haut+1):
+                        for k in range(dernier_ack+1+taille_fenetre+1-delta,fenetre_haut+1):
                             sock_data.sendto((bytes(str(k).zfill(6),'utf-8'))+file_cut[k-1], address_client)
                             print("Send slice " + str(k) + " of total " + str(tot_seq) + " of ",
                                   len(file_cut[k-1]), " bits")
