@@ -14,7 +14,7 @@ def main():
       print("Utilisation : /server Nport")
       return(-1)
 
-    timeout = 0.0001
+    timeout = 0.007
     taille_fenetre = 100
     dernier_ack = 0
 
@@ -67,38 +67,38 @@ def main():
             while (not last_ack):
                 sock_data.settimeout(timeout)
                 try:
-                    while (not last_ack):
-                        if dernier_ack == tot_seq:
-                            last_ack = True
-                            break
-                        if debut:
-                            debut = False
-                            fenetre_haut = min(dernier_ack+1+taille_fenetre,tot_seq)
-                            print("Send full slice "+str(dernier_ack+1)+"to"+str(fenetre_haut))
-                            for k in range(dernier_ack+1,fenetre_haut+1):
-                                sock_data.sendto((bytes(str(k).zfill(6),'utf-8'))+file_cut[k-1], address_client)
-                                print("Send slice " + str(k) + " of total " + str(tot_seq) + " of ",
-                                      len(file_cut[k-1]), " bits")
-                        if change:
-                            fenetre_haut = min(dernier_ack+1+taille_fenetre,tot_seq)
-                            print("Send little slice "+str(dernier_ack+1+taille_fenetre-delta+1)+"to"+str(fenetre_haut))
-                            for k in range(dernier_ack+1+taille_fenetre-delta,fenetre_haut+1):
-                                sock_data.sendto((bytes(str(k).zfill(6),'utf-8'))+file_cut[k-1], address_client)
-                                print("Send slice " + str(k) + " of total " + str(tot_seq) + " of ",
-                                      len(file_cut[k-1]), " bits")
-                        print("Wait ACK")
-                        data, address_client = sock_data.recvfrom(SIZE_BUFFER)
-                        if data.decode()[:3] == "ACK":
-                            print("Received "+data.decode())
-                            recu = int(data.decode()[3:9])
-                            if dernier_ack < recu:
-                                print("ACK > last one")
-                                change = True
-                                delta = min(recu - dernier_ack,taille_fenetre)
-                                dernier_ack = recu
-                            else:
-                                print("Pass ACK")
-                                change = False
+                    if dernier_ack == tot_seq:
+                        last_ack = True
+                        break
+                    if debut:
+                        debut = False
+                        fenetre_haut = min(dernier_ack+1+taille_fenetre,tot_seq)
+                        print("Send full slice "+str(dernier_ack+1)+"to"+str(fenetre_haut))
+                        for k in range(dernier_ack+1,fenetre_haut+1):
+                            sock_data.sendto((bytes(str(k).zfill(6),'utf-8'))+file_cut[k-1], address_client)
+                            print("Send slice " + str(k) + " of total " + str(tot_seq) + " of ",
+                                  len(file_cut[k-1]), " bits")
+                    if change:
+                        fenetre_haut = min(dernier_ack+1+taille_fenetre,tot_seq)
+                        print("Send little slice "+str(dernier_ack+1+taille_fenetre-delta+1)+"to"+str(fenetre_haut))
+                        for k in range(dernier_ack+1+taille_fenetre-delta,fenetre_haut+1):
+                            sock_data.sendto((bytes(str(k).zfill(6),'utf-8'))+file_cut[k-1], address_client)
+                            print("Send slice " + str(k) + " of total " + str(tot_seq) + " of ",
+                                  len(file_cut[k-1]), " bits")
+                    print("Wait ACK")
+                    data, address_client = sock_data.recvfrom(SIZE_BUFFER)
+                    if data.decode()[:3] == "ACK":
+                        print("Received "+data.decode())
+                        recu = int(data.decode()[3:9])
+                        if dernier_ack < recu:
+                            print("ACK > last one")
+                            change = True
+                            delta = min(recu - dernier_ack,taille_fenetre)
+                            dernier_ack = recu
+                        else:
+                            print("Pass ACK")
+                            change = False
+                            sock_data.settimeout(timeout/10)
                 except socket.error:
                     debut = True
                     change = False
