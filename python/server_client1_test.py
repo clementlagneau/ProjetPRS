@@ -1,3 +1,4 @@
+#
 #!/usr/bin/env python3
 import socket
 import os
@@ -13,8 +14,8 @@ def main():
       print("Utilisation : /server Nport")
       return(-1)
 
-    timeout = 0.001
-    taille_fenetre = 20
+    timeout = 0.01
+    taille_fenetre = 60
     dernier_ack = 0
 
     # Creation des sockets
@@ -46,7 +47,6 @@ def main():
     print("We are connected")
 
     #DEBUG
-    somme = 0
     #Maintenant on fait le reste :
     while True:
         data, address_client = sock_data.recvfrom(SIZE_BUFFER)
@@ -62,29 +62,39 @@ def main():
             print("len file_cut",len(file_cut))
             #Il faut qu'on fasse les fenetres ici
             last_ack = False
+            change = True
             while (not last_ack):
                 sock_data.settimeout(timeout)
                 try:
-                    fenetre_haut = max(dernier_ack+taille_fenetre,tot_seq)
-                    print("Send slice "+str(k+1)+"to"+str(dernier_ack+taille_fenetre)+" of total "+str(tot_seq)+" of ",len((bytes(str(k).zfill(6),'utf-8'))+file_cut[k])-6," bits")
-                    for k in range(dernier_ack,fenetre_haut):
-                        sock_data.sendto((bytes(str(k+1).zfill(6),'utf-8'))+file_cut[k], address_client)
-                    print("Wait ACK")
-                    data, address_client = sock_data.recvfrom(SIZE_BUFFER)
-                    if data.decode()[:9] == "ACK"+(str(k+1).zfill(6)):
-                        print("Received "+data.decode())
-                        dernier_ack = int(data.decode()[3:9])
-                        somme += len(bytes(str(k).zfill(6),'utf-8')+file_cut[k]) - 6
                     if dernier_ack == tot_seq:
                         last_ack = True
+                        break
+                    if change:
+                        fenetre_haut = min(dernier_ack+1+taille_fenetre,tot_seq)
+                        print("Send slice "+str(dernier_ack+1)+"to"+str(fenetre_haut))
+                        for k in range(dernier_ack+1,fenetre_haut+1):
+                            sock_data.sendto((bytes(str(k).zfill(6),'utf-8'))+file_cut[k-1], address_client)
+                            print("Send slice " + str(k) + " of total " + str(tot_seq) + " of ",
+                                  len(file_cut[k-1]), " bits")
+                    print("Wait ACK")
+                    data, address_client = sock_data.recvfrom(SIZE_BUFFER)
+                    if data.decode()[:3] == "ACK":
+                        print("Received "+data.decode())
+                        recu = int(data.decode()[3:9])
+                        if dernier_ack < recu:
+                            changer = True
+                            dernier_ack = recu
+                        else:
+                            changer = False
                 except socket.error:
+                    change = True
                     print("Retransmit")
-            sock_data.sendto("FIN".encode(), address_client)
-            break
+        break
+    print("Send FIN")
+    time.sleep(timeout)
+    sock_data.sendto("FIN".encode(), address_client)
     #DEBUG
-    print(somme)
     print("File send")
-
 
 
 
