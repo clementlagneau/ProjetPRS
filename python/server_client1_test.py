@@ -47,6 +47,9 @@ def main():
     print("We are connected")
 
     #DEBUG
+    retransmission = 0
+    ack_ignore = 0
+    fenetre_continue = 0
     #Maintenant on fait le reste :
     while True:
         data, address_client = sock_data.recvfrom(SIZE_BUFFER)
@@ -97,20 +100,24 @@ def main():
                             change = True
                             delta = min(recu - dernier_ack,taille_fenetre)
                             dernier_ack = recu
+                            fenetre_continue +=1
                         else:
                             print("Pass ACK")
                             change = False
+                            ack_ignore +=1
                 except socket.error:
                     timeout = 0.001
                     taille_fenetre = 10
                     debut = True
                     change = False
                     print("Retransmit")
+                    retransmission +=1
         break
     print("Send FIN")
     time.sleep(timeout)
     sock_data.sendto("FIN".encode(), address_client)
     #DEBUG
+    print("Retransmisions ",retransmission," | ACK_Ignores ", ack_ignore, " | Fenetre continue ", fenetre_continue)
     print("File send")
 
 
