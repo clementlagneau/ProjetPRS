@@ -105,6 +105,9 @@ def main():
                             print("Pass ACK")
                             change = False
                             ack_ignore +=1
+                            if ack_ignore > 40:
+                                debut = True
+                                ack_ignore = 0
                 except socket.error:
                     timeout = 0.001
                     taille_fenetre = 10
