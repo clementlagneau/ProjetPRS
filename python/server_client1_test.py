@@ -94,8 +94,8 @@ def main():
                         print("Received "+data.decode())
                         recu = int(data.decode()[3:9])
                         if dernier_ack < recu:
-                            timeout *= 0.001
-                            taille_fenetre *= 2
+                            timeout = 0.001 * timeout + 0.0005
+                            taille_fenetre = 2 * taille_fenetre + 5
                             print("ACK > last one")
                             change = True
                             delta = min(recu - dernier_ack,taille_fenetre)
