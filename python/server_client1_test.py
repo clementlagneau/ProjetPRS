@@ -14,7 +14,7 @@ def main():
       print("Utilisation : /server Nport")
       return(-1)
 
-    timeout = 0.007
+    timeout = 0.02
     taille_fenetre = 100
     dernier_ack = 0
 
