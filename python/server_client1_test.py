@@ -100,6 +100,7 @@ def main():
                             change = False
                 except socket.error:
                     debut = True
+                    change = False
                     print("Retransmit")
         break
     print("Send FIN")
