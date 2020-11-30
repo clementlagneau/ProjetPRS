@@ -62,17 +62,25 @@ def main():
             print("len file_cut",len(file_cut))
             #Il faut qu'on fasse les fenetres ici
             last_ack = False
-            change = True
+            change = False
+            debut = True
             while (not last_ack):
                 sock_data.settimeout(timeout)
                 try:
                     if dernier_ack == tot_seq:
                         last_ack = True
                         break
-                    if change:
+                    if debut:
                         fenetre_haut = min(dernier_ack+1+taille_fenetre,tot_seq)
                         print("Send slice "+str(dernier_ack+1)+"to"+str(fenetre_haut))
                         for k in range(dernier_ack+1,fenetre_haut+1):
+                            sock_data.sendto((bytes(str(k).zfill(6),'utf-8'))+file_cut[k-1], address_client)
+                            print("Send slice " + str(k) + " of total " + str(tot_seq) + " of ",
+                                  len(file_cut[k-1]), " bits")
+                    if change:
+                        fenetre_haut = min(dernier_ack+1+taille_fenetre,tot_seq)
+                        print("Send slice "+str(dernier_ack+delta+1)+"to"+str(fenetre_haut))
+                        for k in range(dernier_ack+delta+1,fenetre_haut+1):
                             sock_data.sendto((bytes(str(k).zfill(6),'utf-8'))+file_cut[k-1], address_client)
                             print("Send slice " + str(k) + " of total " + str(tot_seq) + " of ",
                                   len(file_cut[k-1]), " bits")
@@ -83,11 +91,12 @@ def main():
                         recu = int(data.decode()[3:9])
                         if dernier_ack < recu:
                             changer = True
+                            delta = dernier_ack - recu
                             dernier_ack = recu
                         else:
                             changer = False
                 except socket.error:
-                    change = True
+                    debut = True
                     print("Retransmit")
         break
     print("Send FIN")
