@@ -78,7 +78,7 @@ def main():
                     data, address_client = sock_data.recvfrom(SIZE_BUFFER)
                     if data.decode()[:3] == "ACK":
                         print("Received "+data.decode())
-                        dernier_ack = int(data.decode()[3:9])
+                        dernier_ack = max(int(data.decode()[3:9]),dernier_ack)
                 except socket.error:
                     print("Retransmit")
         break
