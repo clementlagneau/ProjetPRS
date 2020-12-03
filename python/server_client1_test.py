@@ -118,7 +118,7 @@ def main():
                         fenetre_continue +=1
                         timeout = 0.01
                     else:
-                        if ack_ignore > 4:
+                        if ack_ignore > 2:
                             #debut = True
                             time.sleep(0.0005)
                             print("Retransmit all")
