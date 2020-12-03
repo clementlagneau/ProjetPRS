@@ -120,7 +120,7 @@ def main():
                     else:
                         if ack_ignore > 2:
                             #debut = True
-                            time.sleep(0.005)
+                            time.sleep(0.0005)
                             print("Retransmit all")
                             ack_ignore = 0
                         else:
