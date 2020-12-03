@@ -118,7 +118,7 @@ def main():
                         fenetre_continue +=1
                     else:
                         if ack_ignore > 4:
-                            change = True
+                            debut = True
                             print("Retransmit all")
                             ack_ignore = 0
                         else:
