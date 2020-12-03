@@ -104,6 +104,7 @@ def main():
                         sock_data.sendto((bytes(str(k).zfill(6),'utf-8'))+file_cut[k-1], address_client)
                         print("Send slice " + str(k) + " of total " + str(tot_seq) + " of ",
                               len(file_cut[k-1]), " bits")
+                    time.sleep(0.0002)
                 print("Wait ACK")
                 data, address_client = sock_data.recvfrom(SIZE_BUFFER)
                 if data.decode()[:3] == "ACK":
