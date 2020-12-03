@@ -116,6 +116,7 @@ def main():
                         delta = min(recu - dernier_ack,taille_fenetre)
                         dernier_ack = recu
                         fenetre_continue +=1
+                        timeout = 0.02
                     else:
                         if ack_ignore > 4:
                             taille_fenetre = 10
