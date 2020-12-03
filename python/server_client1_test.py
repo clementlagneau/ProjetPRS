@@ -117,7 +117,7 @@ def main():
                         dernier_ack = recu
                         fenetre_continue +=1
                     else:
-                        if ack_ignore > 2:
+                        if ack_ignore > 4:
                             change = True
                             print("Retransmit all")
                             ack_ignore = 0
