@@ -119,7 +119,8 @@ def main():
                         timeout = 0.01
                     else:
                         if ack_ignore > 4:
-                            debut = True
+                            #debut = True
+                            time.sleep(0.001)
                             print("Retransmit all")
                             ack_ignore = 0
                         else:
