@@ -117,13 +117,17 @@ def main():
                         dernier_ack = recu
                         fenetre_continue +=1
                     else:
-                        debut = True
-                        print("Retransmit all")
-                        ack_ignore += 1
+                        if ack_ignore > 2:
+                            change = True
+                            print("Retransmit all")
+                            ack_ignore = 0
+                        else:
+                            change = False
+                            ack_ignore +=1
                         ack_ignore_debug +=1
             except socket.error:
-                timeout = 0.02
-                taille_fenetre = 60
+                timeout = 0.008
+                taille_fenetre = 30
                 debut = True
                 change = False
                 print("Retransmit")
