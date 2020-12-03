@@ -24,7 +24,7 @@ def main():
     timeout = 0.002
     taille_fenetre = 20
     dernier_ack = 0
-    nombre_client = 1001
+    nombre_client = 3000
 
     # Creation des sockets
     sock_init = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -43,7 +43,7 @@ def main():
             # On cree la socket de donnee
             sock_data = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             port_data = nombre_client
-            nombre_client = (nombre_client + 1) % 9000 + 1000
+            nombre_client = (nombre_client + 1)
             data_address = ('0.0.0.0', port_data)
             sock_data.bind(data_address)
 
