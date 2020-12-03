@@ -97,8 +97,8 @@ def main():
                               len(file_cut[k-1]), " bits")
                 if change:
                     #Cas fenetre glissante
-                    fenetre_haut = min(dernier_ack+1+taille_fenetre,tot_seq)
-                    print("Send little slice "+str(dernier_ack+1+taille_fenetre-delta)+"to"+str(fenetre_haut))
+                    fenetre_haut = min(dernier_ack+1+taille_fenetre+1,tot_seq)
+                    print("Send little slice "+str(dernier_ack+1+taille_fenetre+1-delta)+"to"+str(fenetre_haut))
                     for k in range(dernier_ack+1+taille_fenetre-delta,fenetre_haut+1):
                         sock_data.sendto((bytes(str(k).zfill(6),'utf-8'))+file_cut[k-1], address_client)
                         print("Send slice " + str(k) + " of total " + str(tot_seq) + " of ",
@@ -118,6 +118,7 @@ def main():
                         fenetre_continue +=1
                     else:
                         if ack_ignore > 4:
+                            taille_fenetre = 10
                             debut = True
                             print("Retransmit all")
                             ack_ignore = 0
