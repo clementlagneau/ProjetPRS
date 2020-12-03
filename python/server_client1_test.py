@@ -24,7 +24,7 @@ def main():
     timeout = 0.002
     taille_fenetre = 20
     dernier_ack = 0
-    nombre_client = 1000
+    nombre_client = 1001
 
     # Creation des sockets
     sock_init = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
