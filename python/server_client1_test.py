@@ -122,7 +122,7 @@ def main():
                         ack_ignore += 1
                         ack_ignore_debug +=1
             except socket.error:
-                timeout = 0.008
+                timeout = 0.02
                 taille_fenetre = 60
                 debut = True
                 change = False
