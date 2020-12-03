@@ -129,7 +129,7 @@ def main():
                         ack_ignore_debug +=1
             except socket.error:
                 timeout = 0.008
-                taille_fenetre = 30
+                taille_fenetre = 50
                 debut = True
                 change = False
                 print("Retransmit")
