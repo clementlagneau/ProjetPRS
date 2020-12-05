@@ -119,9 +119,9 @@ def main():
                     fenetre_continue = max(fenetre_continue+1, 70)
                     taille_fenetre += 1
                 else:
-                    if ack_ignore > 10:
+                    if ack_ignore > 2:
                         #debut = True
-                        time.sleep(0.0005)
+                        time.sleep(0.001)
                         print("Retransmit all")
                         ack_ignore = 0
                     else:
@@ -130,7 +130,7 @@ def main():
                     ack_ignore_debug +=1
         except socket.error:
             timeout = 0.008
-            taille_fenetre = 20
+            taille_fenetre = taille_fenetre // 2
             debut = True
             change = False
             print("Retransmit")
