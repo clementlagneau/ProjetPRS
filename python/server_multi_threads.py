@@ -29,6 +29,10 @@ def main():
             data_address = ('0.0.0.0', port_data)
             sock_data.bind(data_address)
 
+            timeout = 0.002
+            taille_fenetre = 20
+            dernier_ack = 0
+
             # Variables de metriques de performances
             retransmission = 0
             ack_ignore_debug = 0
