@@ -119,13 +119,11 @@ def main():
                     fenetre_continue += 1
                     taille_fenetre = max(taille_fenetre+2,100)
                 else:
-                    if ack_ignore > 4:
+                    if ack_ignore > 2:
                         #debut = True
-                        time.sleep(0.0002)
+                        time.sleep(0.0005)
                         print("Retransmit all")
                         ack_ignore = 0
-                        timeout = 0.008
-                        taille_fenetre = 20
                     else:
                         ack_ignore +=1
                     ack_ignore_debug +=1
