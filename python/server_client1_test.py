@@ -98,6 +98,7 @@ def main():
                 time.sleep(0.0001)
             if change:
                 #Cas fenetre glissante
+                change = False
                 fenetre_haut = min(dernier_ack+1+taille_fenetre+1,tot_seq)
                 print("Send little slice "+str(dernier_ack+1+taille_fenetre+1-delta)+"to"+str(fenetre_haut))
                 for k in range(dernier_ack+1+taille_fenetre-delta,fenetre_haut+1):
@@ -122,7 +123,7 @@ def main():
                 else:
                     if ack_ignore > 2:
                         #debut = True
-                        time.sleep(0.0005)
+                        time.sleep(0.001)
                         print("Retransmit all")
                         ack_ignore = 0
                     else:
