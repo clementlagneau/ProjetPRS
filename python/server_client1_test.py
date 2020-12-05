@@ -121,7 +121,7 @@ def main():
                 else:
                     if ack_ignore > 2:
                         #debut = True
-                        time.sleep(0.001)
+                        time.sleep(0.0005)
                         print("Retransmit all")
                         ack_ignore = 0
                     else:
@@ -130,11 +130,12 @@ def main():
                     ack_ignore_debug +=1
         except socket.error:
             timeout = 0.008
-            taille_fenetre = taille_fenetre // 2
+            taille_fenetre = taille_fenetre - 1
             debut = True
             change = False
             print("Retransmit")
             retransmission +=1
+            time.sleep(0.0002)
     print("Send FIN")
     time.sleep(0.005)
     sock_data.sendto("FIN".encode(), address_client)
