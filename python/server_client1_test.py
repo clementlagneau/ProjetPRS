@@ -117,9 +117,9 @@ def main():
                     delta = min(recu - dernier_ack,taille_fenetre)
                     dernier_ack = recu
                     fenetre_continue += 1
-                    taille_fenetre = 70
+                    taille_fenetre = 80
                 else:
-                    if ack_ignore > 2:
+                    if ack_ignore > 3:
                         #debut = True
                         time.sleep(0.0005)
                         print("Retransmit all")
@@ -129,7 +129,7 @@ def main():
                     ack_ignore_debug +=1
         except socket.error:
             timeout = 0.008
-            taille_fenetre = 35
+            taille_fenetre = 40
             debut = True
             change = False
             print("Retransmit")
