@@ -125,8 +125,8 @@ def main():
                         print("Retransmit all")
                         ack_ignore = 0
                         debut = True
-                        timeout = 0.006
-                        taille_fenetre = 20
+                        timeout = 0.004
+                        taille_fenetre = 2
                     else:
                         ack_ignore +=1
                     ack_ignore_debug +=1
