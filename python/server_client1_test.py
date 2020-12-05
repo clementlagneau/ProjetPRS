@@ -116,7 +116,7 @@ def main():
                     change = True
                     delta = min(recu - dernier_ack,taille_fenetre)
                     dernier_ack = recu
-                    taille_fenetre += 1
+                    taille_fenetre = max(taille_fenetre+1,80)
                 else:
                     if ack_ignore > 4:
                         #debut = True
