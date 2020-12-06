@@ -31,6 +31,12 @@ def main():
     server_address = ('0.0.0.0', port)
     sock_init.bind(server_address)
 
+    def sendkton(k,n):
+        print("Send slice " + str(k) + "to" + str(n))
+        for j in range(k, n + 1):
+            sock_data.sendto((bytes(str(j).zfill(6), 'utf-8')) + file_cut[j - 1], address_client)
+#            print("Send slice " + str(j) + " of total " + str(tot_seq))
+
     # Handshake of client and server
     handshake_success = False
     while not handshake_success:
@@ -91,19 +97,13 @@ def main():
                 debut = False
                 fenetre_haut = min(dernier_ack+1+taille_fenetre,tot_seq)
                 print("Send full slice "+str(dernier_ack+1)+"to"+str(fenetre_haut))
-                for k in range(dernier_ack+1,fenetre_haut+1):
-                    sock_data.sendto((bytes(str(k).zfill(6),'utf-8'))+file_cut[k-1], address_client)
-                    print("Send slice " + str(k) + " of total " + str(tot_seq) + " of ",
-                          len(file_cut[k-1]), " bits")
+                sendkton(dernier_ack+1,fenetre_haut)
             if change:
                 #Cas fenetre glissante
                 change = False
                 fenetre_haut = min(dernier_ack+1+taille_fenetre+1,tot_seq)
                 print("Send little slice "+str(dernier_ack+1+taille_fenetre+1-delta)+"to"+str(fenetre_haut))
-                for k in range(dernier_ack+1+taille_fenetre-delta,fenetre_haut+1):
-                    sock_data.sendto((bytes(str(k).zfill(6),'utf-8'))+file_cut[k-1], address_client)
-                    print("Send slice " + str(k) + " of total " + str(tot_seq) + " of ",
-                          len(file_cut[k-1]), " bits")
+                sendkton(dernier_ack+1+taille_fenetre+1-delta,fenetre_haut)
             print("Wait ACK")
             data, address_client = sock_data.recvfrom(SIZE_BUFFER)
             if data.decode()[:3] == "ACK":
