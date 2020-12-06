@@ -124,7 +124,8 @@ def main():
                         time.sleep(0.0005)
                         print("Retransmit all")
                         ack_ignore = 0
-                        taille_fenetre = 40
+                        taille_fenetre = 5
+                        debut = True
                     else:
                         ack_ignore +=1
                     ack_ignore_debug +=1
