@@ -36,6 +36,7 @@ def main():
         for j in range(k, n + 1):
             sock_data.sendto((bytes(str(j).zfill(6), 'utf-8')) + file_cut[j - 1], address_client)
 #            print("Send slice " + str(j) + " of total " + str(tot_seq))
+        time.sleep(n-k*0.0001)
 
     # Handshake of client and server
     handshake_success = False
@@ -124,8 +125,7 @@ def main():
                         time.sleep(0.0005)
                         print("Retransmit all")
                         ack_ignore = 0
-                        taille_fenetre = 40
-                        debut = True
+                        taille_fenetre = 30
                     else:
                         ack_ignore +=1
                     ack_ignore_debug +=1
