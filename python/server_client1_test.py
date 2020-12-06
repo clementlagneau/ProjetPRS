@@ -25,6 +25,7 @@ def main():
     taille_fenetre = 20
     dernier_ack = 0
     nombre_client = 3000
+    RTT = 0.0001
 
     # Creation des sockets
     sock_init = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -32,11 +33,15 @@ def main():
     sock_init.bind(server_address)
 
     def sendkton(k,n):
-        print("Send slice " + str(k) + "to" + str(n))
-        for j in range(k, n + 1):
-            sock_data.sendto((bytes(str(j).zfill(6), 'utf-8')) + file_cut[j - 1], address_client)
-#            print("Send slice " + str(j) + " of total " + str(tot_seq))
-        time.sleep((n-k)*0.0001)
+        if k < n :
+            print("Send slice " + str(k) + "to" + str(n))
+            for j in range(k, n + 1):
+                sock_data.sendto((bytes(str(j).zfill(6), 'utf-8')) + file_cut[j - 1], address_client)
+                #print("Send slice " + str(j) + " of total " + str(tot_seq))
+            time.sleep((n-k)*RTT)
+        elif k = n :
+            sock_data.sendto((bytes(str(k).zfill(6), 'utf-8')) + file_cut[k - 1], address_client)
+
 
     # Handshake of client and server
     handshake_success = False
