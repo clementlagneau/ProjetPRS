@@ -117,14 +117,14 @@ def main():
                     delta = min(recu - dernier_ack,taille_fenetre)
                     dernier_ack = recu
                     fenetre_continue += 1
-                    taille_fenetre = 100
+                    taille_fenetre = 80
                 else:
                     if ack_ignore > 3:
                         #debut = True
                         time.sleep(0.0005)
                         print("Retransmit all")
                         ack_ignore = 0
-                        taille_fenetre = 5
+                        taille_fenetre = 40
                         debut = True
                     else:
                         ack_ignore +=1
