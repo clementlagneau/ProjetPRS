@@ -130,29 +130,28 @@ def main():
                 tmp = fenetre_haut
                 fenetre_haut = min(dernier_ack+1+taille_fenetre,tot_seq)
                 sendkton(dernier_ack+1+tmp-delta,fenetre_haut)
-            else:
-                print("Wait ACK")
-                data, address_client = sock_data.recvfrom(SIZE_BUFFER)
-                if data.decode()[:3] == "ACK":
-                    print("Received " + data.decode())
-                    recu = int(data.decode()[3:9])
-                    rtt = time.time() - time_file_cut[recu]  # On calcule rtt entre temps paquet validé et temps original
-                    print("RTT : " + str(rtt)) # DEBUG
-                    if dernier_ack < recu :
-                        print("ACK > last one") #DEBUG
-                        change = True
-                        delta = min(recu - dernier_ack, taille_fenetre)
-                        dernier_ack = recu
-                        fenetre_continue += 1
-                    elif ack_ignore > 4 :
-                        time.sleep(0.001)
-                        print("Retransmit last one") #DEBUG
-                        ack_ignore = 0
-                        ack_ignore_debug += 1
-                        sock_data.sendto((bytes(str(dernier_ack + 1).zfill(6), 'utf-8')) + file_cut[dernier_ack], address_client)
-                    else:
-                        ack_ignore += 1
-                        ack_ignore_debug += 1
+            print("Wait ACK")
+            data, address_client = sock_data.recvfrom(SIZE_BUFFER)
+            if data.decode()[:3] == "ACK":
+                print("Received " + data.decode())
+                recu = int(data.decode()[3:9])
+                rtt = time.time() - time_file_cut[recu]  # On calcule rtt entre temps paquet validé et temps original
+                print("RTT : " + str(rtt)) # DEBUG
+                if dernier_ack < recu :
+                    print("ACK > last one") #DEBUG
+                    change = True
+                    delta = min(recu - dernier_ack, taille_fenetre)
+                    dernier_ack = recu
+                    fenetre_continue += 1
+                elif ack_ignore > 4 :
+                    time.sleep(0.001)
+                    print("Retransmit last one") #DEBUG
+                    ack_ignore = 0
+                    ack_ignore_debug += 1
+                    sock_data.sendto((bytes(str(dernier_ack + 1).zfill(6), 'utf-8')) + file_cut[dernier_ack], address_client)
+                else:
+                    ack_ignore += 1
+                    ack_ignore_debug += 1
             time.sleep(0.001)
         except:
             debut = True
