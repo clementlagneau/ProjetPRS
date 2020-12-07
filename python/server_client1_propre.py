@@ -153,6 +153,7 @@ def main():
                     else:
                         ack_ignore += 1
                         ack_ignore_debug += 1
+            time.sleep(0.001)
         except:
             debut = True
             print("Retransmit")
