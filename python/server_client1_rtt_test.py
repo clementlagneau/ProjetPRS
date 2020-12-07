@@ -22,6 +22,8 @@ def main():
 
     #Definitions des variables globales
     timeout = 0.002
+    rtt = 0.002
+    coeff_rtt = 1.2
     taille_fenetre = 20
     dernier_ack = 0
     nombre_client = 3000
@@ -70,6 +72,7 @@ def main():
     with open(data.decode()[:-1],"rb") as file :
         #On calcul le nombre de sequences necessaires
         file_cut = []
+        time_file_cut = [None for x in range (tot_seq+1)] #On initialise le tableau qui va stocker les temps d'envoi pour calculer le RTT
         for k in range(tot_seq):
             file_cut.append(copy.deepcopy((file.read(SIZE_BUFFER))))
         #On envoie le fichier petit a petit
@@ -79,7 +82,7 @@ def main():
         change = False
         debut = True
         while (not last_ack):
-            sock_data.settimeout(timeout)
+            sock_data.settimeout(coeff_rtt*rtt)
             try:
                 if dernier_ack == tot_seq:
                     #On a recu le dernier ACK
@@ -93,6 +96,7 @@ def main():
                     print("Send full slice "+str(dernier_ack+1)+"to"+str(fenetre_haut))
                     for k in range(dernier_ack+1,fenetre_haut+1):
                         sock_data.sendto((bytes(str(k).zfill(6),'utf-8'))+file_cut[k-1], address_client)
+                        time_file_cut[k] = time.time() #On récupère le temps pour chaque segment qu'on envoie pour rtt
                         print("Send slice " + str(k) + " of total " + str(tot_seq) + " of ",
                               len(file_cut[k-1]), " bits")
                 if change:
@@ -101,6 +105,7 @@ def main():
                     print("Send little slice "+str(dernier_ack+1+taille_fenetre+1-delta)+"to"+str(fenetre_haut))
                     for k in range(dernier_ack+1+taille_fenetre-delta,fenetre_haut+1):
                         sock_data.sendto((bytes(str(k).zfill(6),'utf-8'))+file_cut[k-1], address_client)
+                        time_file_cut[k] = time.time() #On récupère le temps pour chaque segment qu'on envoie pour calcul rtt
                         print("Send slice " + str(k) + " of total " + str(tot_seq) + " of ",
                               len(file_cut[k-1]), " bits")
                 print("Wait ACK")
@@ -108,6 +113,8 @@ def main():
                 if data.decode()[:3] == "ACK":
                     print("Received "+data.decode())
                     recu = int(data.decode()[3:9])
+                    rtt = time.time() - time_file_cut[recu] #On calcule rtt entre temps paquet validé et temps original
+                    print("RTT : " + str(rtt))
                     if dernier_ack < recu:
                         #timeout = 0.9999 * timeout + 0.0005
                         #taille_fenetre = max(2 * taille_fenetre + 5 , 300)
