@@ -35,6 +35,7 @@ def main():
     taille_fenetre = 20
     dernier_ack = 0
     nombre_client = 3000
+    SIZE_BUFFER = 1024 #Taille du buffer
 
     # Variables de metriques de performances
     retransmission = 0
