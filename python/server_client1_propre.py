@@ -163,5 +163,5 @@ def main():
     print("Retransmisions ",retransmission," | ACK_Ignores ", ack_ignore_debug, " | Fenetre continue ", fenetre_continue)
     print("File send")
 
-    if __name__ == '__main__':
-        main()
+if __name__ == '__main__':
+    main()
