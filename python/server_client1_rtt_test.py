@@ -21,7 +21,7 @@ def main():
       return(-1)
 
     #Definitions des variables globales
-    timeout = 0.002
+    timeout = 0.03
     rtt = 0.002
     coeff_rtt = 1.2
     taille_fenetre = 20
@@ -82,7 +82,7 @@ def main():
         change = False
         debut = True
         while (not last_ack):
-            sock_data.settimeout(coeff_rtt*rtt)
+            sock_data.settimeout(min(coeff_rtt*rtt, timeout))
             try:
                 if dernier_ack == tot_seq:
                     #On a recu le dernier ACK
