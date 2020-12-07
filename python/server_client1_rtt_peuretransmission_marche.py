@@ -112,8 +112,8 @@ def main():
                 if change:
                     #Cas fenetre glissante
                     fenetre_haut = min(dernier_ack+1+taille_fenetre+1,tot_seq)
-                    print("Send little slice "+str(dernier_ack+1+taille_fenetre+1-delta)+"to"+str(fenetre_haut))
-                    for k in range(dernier_ack+1+taille_fenetre-delta+1,fenetre_haut+1):
+                    print("Send little slice "+str(dernier_ack+1+taille_fenetre-delta)+"to"+str(fenetre_haut))
+                    for k in range(dernier_ack+1+taille_fenetre-delta,fenetre_haut+1):
                         sock_data.sendto((bytes(str(k).zfill(6),'utf-8'))+file_cut[k-1], address_client)
                         time_file_cut[k] = time.time() #On récupère le temps pour chaque segment qu'on envoie pour calcul rtt
                         print("Send slice " + str(k) + " of total " + str(tot_seq) + " of ",
@@ -124,7 +124,7 @@ def main():
                     print("Received "+data.decode())
                     recu = int(data.decode()[3:9])
                     rtt = time.time() - time_file_cut[recu] #On calcule rtt entre temps paquet validé et temps original
-                    #print("RTT : " + str(rtt))
+                    print("RTT : " + str(rtt))
                     if dernier_ack < recu:
                         #timeout = 0.9999 * timeout + 0.0005
                         #taille_fenetre = max(2 * taille_fenetre + 5 , 300)
@@ -134,7 +134,7 @@ def main():
                         dernier_ack = recu
                         fenetre_continue +=1
                         #timeout = 0.01
-                        taille_fenetre += aug_taille_fenetre
+                        #taille_fenetre += aug_taille_fenetre
                     else:
                         if ack_ignore > 4:
                             #debut = True
@@ -142,8 +142,6 @@ def main():
                             print("Retransmit all")
                             ack_ignore = 0
                             sock_data.sendto((bytes(str(dernier_ack+1).zfill(6), 'utf-8')) + file_cut[dernier_ack], address_client)
-                            time_file_cut[dernier_ack+1] = time.time()  # On récupère le temps pour chaque segment qu'on envoie pour rtt
-
                         else:
                             change = False
                             ack_ignore +=1
