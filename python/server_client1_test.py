@@ -39,7 +39,7 @@ def main():
                 sock_data.sendto((bytes(str(j).zfill(6), 'utf-8')) + file_cut[j - 1], address_client)
                 #print("Send slice " + str(j) + " of total " + str(tot_seq))
             time.sleep((n-k)*RTT)
-        elif k = n :
+        elif k == n :
             sock_data.sendto((bytes(str(k).zfill(6), 'utf-8')) + file_cut[k - 1], address_client)
 
 
