@@ -92,6 +92,7 @@ def main():
             sock_data.sendto((bytes(str(j).zfill(6), 'utf-8')) + file_cut[j - 1], address_client)
             time_file_cut[j] = time.time()
             print("Send slice " + str(j) + " of total " + str(tot_seq))
+        time.sleep(0.001)
         return(n)
 
     #On recupere le fichier
