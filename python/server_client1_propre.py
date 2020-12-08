@@ -156,7 +156,7 @@ def main():
                     time.sleep(0.0002)
                     ack_seules += 1
                 else:
-                    print("drop")
+                    #print("drop")
                     ack_ignore += 1
                     ack_ignore_debug += 1
             else: #DEBUG
