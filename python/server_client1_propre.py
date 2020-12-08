@@ -31,8 +31,8 @@ def main():
     timeout = 0.03
     rtt = 0.02
     coeff_rtt = 0.8
-    taille_fenetre_init = 40
-    aug_taille_fenetre = 6
+    taille_fenetre_init = 100
+    aug_taille_fenetre = 0
     taille_fenetre = taille_fenetre_init
     dernier_ack = 0
     nombre_client = 3000
