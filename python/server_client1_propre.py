@@ -30,7 +30,7 @@ def main():
     #Definitions des variables globales
     timeout = 0.03
     rtt = 0.02
-    coeff_rtt = 1.5
+    coeff_rtt = 1.2
     taille_fenetre_init = 30
     aug_taille_fenetre = 3
     taille_fenetre = taille_fenetre_init
@@ -44,6 +44,7 @@ def main():
     ack_ignore_debug = 0
     ack_ignore = 0
     fenetre_continue = 0
+    ack_seules = 0
 
     # Creation des sockets
     sock_init = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -153,6 +154,7 @@ def main():
                     ack_ignore_debug += 1
                     time.sleep(0.001)
                     dernier = sendkton(recu,recu)
+                    ack_seules += 1
                 else:
                     print("drop")
                     ack_ignore += 1
@@ -168,7 +170,7 @@ def main():
     print("Send FIN")
     sock_data.sendto("FIN".encode(), address_client)
     #DEBUG
-    print("Retransmisions ",retransmission," | ACK_Ignores ", ack_ignore_debug, " | Fenetre continue ", fenetre_continue)
+    print("Retransmisions ",retransmission," | ACK_Ignores ", ack_ignore_debug, " | Fenetre continue ", fenetre_continue," | ACK seules ", ack_seules)
     print("File send")
 
 if __name__ == '__main__':
