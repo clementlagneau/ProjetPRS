@@ -88,7 +88,7 @@ def main():
     """
 
     def sendkton(k,n):
-        print("Send slice " + str(k) + "to" + str(n))
+        #print("Send slice " + str(k) + "to" + str(n))
         for j in range(k, n + 1):
             sock_data.sendto((bytes(str(j).zfill(6), 'utf-8')) + file_cut[j - 1], address_client)
             time_file_cut[j] = time.time()
@@ -153,7 +153,7 @@ def main():
                     ack_ignore = 0
                     ack_ignore_debug += 1
                     #sendkton(recu+1,recu+1) #On met pas a jour dernier c'est normal
-                    #time.sleep(0.0002)
+                    time.sleep(0.0002)
                     #ack_seules += 1
                 else:
                     #print("drop")
