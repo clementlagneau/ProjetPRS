@@ -84,6 +84,7 @@ def main():
             sock_data.sendto((bytes(str(j).zfill(6), 'utf-8')) + file_cut[j - 1], address_client)
             time_file_cut[j] = time.time()
             #print("Send slice " + str(j) + " of total " + str(tot_seq))
+        time.sleep(coeff_rtt*rtt)
 
     """
     --------------------
@@ -146,10 +147,8 @@ def main():
                     fenetre_continue += 1
                 elif ack_ignore > 4 :
                     time.sleep(0.001)
-                    print("Retransmit last one") #DEBUG
                     ack_ignore = 0
                     ack_ignore_debug += 1
-                    sendkton(dernier_ack+1,dernier_ack+1)
                 else:
                     ack_ignore += 1
                     ack_ignore_debug += 1
