@@ -27,9 +27,6 @@ def main():
       print("Utilisation : /server Nport")
       return(-1)
 
-    #DEBUG
-    debut= time.time()
-
     #Definitions des variables globales
     timeout = 0.03
     rtt = 0.02
@@ -83,6 +80,9 @@ def main():
                 print("Received ACK")
                 handshake_success = True
     print("We are connected")
+
+    #DEBUG
+    debut= time.time()
 
     """
     --------------------
