@@ -30,7 +30,6 @@ def main():
     #Definitions des variables globales
     timeout = 0.03
     rtt = 0.02
-    coeff_rtt = 1/30
     taille_fenetre_init = 30
     aug_taille_fenetre = 4
     taille_fenetre = taille_fenetre_init
@@ -38,6 +37,7 @@ def main():
     nombre_client = 3000
     SIZE_BUFFER = 1024 #Taille du buffer
     rtt_moy = 0.005
+    coeff_rtt = 1/60
 
     # Variables de metriques de performances
     retransmission = 0
