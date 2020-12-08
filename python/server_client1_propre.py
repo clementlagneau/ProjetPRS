@@ -82,6 +82,7 @@ def main():
         print("Send slice " + str(k) + "to" + str(n))
         for j in range(k, n + 1):
             sock_data.sendto((bytes(str(j).zfill(6), 'utf-8')) + file_cut[j - 1], address_client)
+            time_file_cut[j] = time.time()
             #print("Send slice " + str(j) + " of total " + str(tot_seq))
 
     """
@@ -135,7 +136,6 @@ def main():
             if data.decode()[:3] == "ACK":
                 print("Received " + data.decode())
                 recu = int(data.decode()[3:9])
-                print("RECU",recu)
                 rtt = time.time() - time_file_cut[recu]  # On calcule rtt entre temps paquet validé et temps original
                 print("RTT : " + str(rtt)) # DEBUG
                 if dernier_ack < recu :
