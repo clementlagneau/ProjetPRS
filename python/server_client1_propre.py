@@ -30,9 +30,9 @@ def main():
     #Definitions des variables globales
     timeout = 0.03
     rtt = 0.02
-    coeff_rtt = 1.5
+    coeff_rtt = 1.1
     taille_fenetre_init = 30
-    aug_taille_fenetre = 30
+    aug_taille_fenetre = 2
     taille_fenetre = taille_fenetre_init
     dernier_ack = 0
     nombre_client = 3000
@@ -152,7 +152,7 @@ def main():
                 elif ack_ignore > 10 :
                     ack_ignore = 0
                     ack_ignore_debug += 1
-                    #time.sleep(0.001)
+                    time.sleep(rtt_moy)
                     dernier = sendkton(recu,recu)
                     ack_seules += 1
                 else:
