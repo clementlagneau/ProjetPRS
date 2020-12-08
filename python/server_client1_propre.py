@@ -153,7 +153,7 @@ def main():
                     ack_ignore = 0
                     ack_ignore_debug += 1
                     dernier = sendkton(recu,recu)
-                    time.sleep(rtt_moy)
+                    #time.sleep(rtt_moy)
                     ack_seules += 1
                 else:
                     print("drop")
