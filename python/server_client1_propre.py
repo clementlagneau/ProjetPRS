@@ -144,12 +144,12 @@ def main():
                 rtt_moy = (rtt_moy + rtt)/2
                 #print("RTT : " + str(rtt),"Moy RTT",rtt_moy) # DEBUG
                 if dernier_ack < recu :
-                    print("ACK > last one") #DEBUG
+                    #print("ACK > last one") #DEBUG
                     change = True
                     delta = min(recu - dernier_ack, taille_fenetre)
                     dernier_ack = recu
                     fenetre_continue += 1
-                elif ack_ignore > 10 :
+                elif ack_ignore > 20 :
                     ack_ignore = 0
                     ack_ignore_debug += 1
                     #sendkton(recu+1,recu+1) #On met pas a jour dernier c'est normal
@@ -163,7 +163,7 @@ def main():
                 print("WTF BRO") #DEBUG
         except socket.error:
             debut = True
-            print("Retransmit")
+            #print("Retransmit")
             retransmission += 1
             taille_fenetre = taille_fenetre_init
 
