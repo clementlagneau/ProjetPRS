@@ -151,8 +151,7 @@ def main():
                     dernier_ack = recu
                     time.sleep(coeff_rtt*rtt)
                     ack_ignore = 0
-                    ack_ignore_debug += 1
-                """
+                    ack_ignore_debug += 1"""
                 else:
                     print("drop")
                     ack_ignore += 1
