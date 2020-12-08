@@ -177,7 +177,7 @@ def main():
     sock_data.sendto("FIN".encode(), address_client)
     #DEBUG
     temps = time.time()-debut
-    print("Debit :",size/temps)
+    print("Debit :",size,temps,size/temps)
     print("Retransmisions ",retransmission," | ACK_Ignores ", ack_ignore_debug, " | Fenetre continue ", fenetre_continue," | ACK seules ", ack_seules)
     print("File send")
 
