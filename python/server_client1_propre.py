@@ -27,6 +27,9 @@ def main():
       print("Utilisation : /server Nport")
       return(-1)
 
+    #DEBUG
+    debut= time.time()
+
     #Definitions des variables globales
     timeout = 0.03
     rtt = 0.02
@@ -99,7 +102,8 @@ def main():
     try:
         data, address_client = sock_data.recvfrom(SIZE_BUFFER)
         print("Client wants file: " + data.decode())
-        tot_seq = os.path.getsize(data.decode()[:-1]) // SIZE_BUFFER + 1
+        size = os.path.getsize(data.decode()[:-1])
+        tot_seq = size // SIZE_BUFFER + 1
         print("Number of seq : ",tot_seq)
     except:
         print("We can't open the file, check out if the file is here")
@@ -172,6 +176,8 @@ def main():
     time.sleep(0.05) #
     sock_data.sendto("FIN".encode(), address_client)
     #DEBUG
+    temps = time.time()-debut
+    print("Debit :",size/temps)
     print("Retransmisions ",retransmission," | ACK_Ignores ", ack_ignore_debug, " | Fenetre continue ", fenetre_continue," | ACK seules ", ack_seules)
     print("File send")
 
