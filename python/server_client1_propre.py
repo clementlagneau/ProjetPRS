@@ -141,7 +141,7 @@ def main():
                 print("RTT : " + str(rtt)) # DEBUG
                 if dernier_ack < recu :
                     print("ACK > last one") #DEBUG
-                    change = True
+                    debut = True
                     delta = min(recu - dernier_ack, taille_fenetre)
                     dernier_ack = recu
                     fenetre_continue += 1
