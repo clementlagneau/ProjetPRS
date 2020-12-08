@@ -30,9 +30,9 @@ def main():
     #Definitions des variables globales
     timeout = 0.03
     rtt = 0.02
-    coeff_rtt = 1.4
+    coeff_rtt = 1.5
     taille_fenetre_init = 30
-    aug_taille_fenetre = 15
+    aug_taille_fenetre = 30
     taille_fenetre = taille_fenetre_init
     dernier_ack = 0
     nombre_client = 3000
