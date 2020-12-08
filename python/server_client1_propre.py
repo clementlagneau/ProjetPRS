@@ -135,14 +135,14 @@ def main():
                 fenetre_haut = min(dernier_ack+1+taille_fenetre,tot_seq)
                 dernier_envoyer = sendkton(dernier_envoyer,fenetre_haut)
                 taille_fenetre = min(taille_fenetre+aug_taille_fenetre,100)
-            print("Wait ACK")
+            #print("Wait ACK")
             data, address_client = sock_data.recvfrom(SIZE_BUFFER)
             if data.decode()[:3] == "ACK":
-                print("Received " + data.decode())
+                #print("Received " + data.decode())
                 recu = int(data.decode()[3:9])
                 rtt = time.time() - time_file_cut[recu]
                 rtt_moy = (rtt_moy + rtt)/2
-                print("RTT : " + str(rtt),"Moy RTT",rtt_moy) # DEBUG
+                #print("RTT : " + str(rtt),"Moy RTT",rtt_moy) # DEBUG
                 if dernier_ack < recu :
                     print("ACK > last one") #DEBUG
                     change = True
