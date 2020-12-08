@@ -136,7 +136,7 @@ def main():
             if data.decode()[:3] == "ACK":
                 print("Received " + data.decode())
                 recu = int(data.decode()[3:9])
-                rtt = time.time() - time_file_cut[recu]  # On calcule rtt entre temps paquet validé et temps original
+                rtt = time.time() - time_file_cut[recu]
                 print("RTT : " + str(rtt)) # DEBUG
                 if dernier_ack < recu :
                     print("ACK > last one") #DEBUG
@@ -149,7 +149,7 @@ def main():
                     print("Retransmit last one") #DEBUG
                     ack_ignore = 0
                     ack_ignore_debug += 1
-                    sock_data.sendto((bytes(str(dernier_ack + 1).zfill(6), 'utf-8')) + file_cut[dernier_ack], address_client)
+                    sendkton(dernier_ack+1,dernier_ack+1)
                 else:
                     ack_ignore += 1
                     ack_ignore_debug += 1
