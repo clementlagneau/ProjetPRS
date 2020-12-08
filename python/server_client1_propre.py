@@ -30,7 +30,7 @@ def main():
     #Definitions des variables globales
     timeout = 0.03
     rtt = 0.02
-    coeff_rtt = 6
+    coeff_rtt = 2
     taille_fenetre_init = 30
     aug_taille_fenetre = 2
     taille_fenetre = taille_fenetre_init
@@ -152,6 +152,7 @@ def main():
                     ack_ignore = 0
                     ack_ignore_debug += 1
                     time.sleep(0.001)
+                    dernier = sendkton(recu,recu)
                 else:
                     print("drop")
                     ack_ignore += 1
