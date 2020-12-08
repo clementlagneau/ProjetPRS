@@ -136,7 +136,7 @@ def main():
             elif change:
                 change = False
                 ack_ignore = 0
-                fenetre_haut = min(dernier_ack+1+taille_fenetre,tot_seq)
+                fenetre_haut = min(dernier_ack+1+taille_fenetre*2,tot_seq)
                 dernier_envoyer = sendkton(dernier_envoyer,fenetre_haut)
                 taille_fenetre = min(taille_fenetre+aug_taille_fenetre,100)
             #print("Wait ACK")
