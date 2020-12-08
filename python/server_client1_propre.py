@@ -168,6 +168,7 @@ def main():
             taille_fenetre = taille_fenetre_init
 
     print("Send FIN")
+    time.sleep(0.001)
     sock_data.sendto("FIN".encode(), address_client)
     #DEBUG
     print("Retransmisions ",retransmission," | ACK_Ignores ", ack_ignore_debug, " | Fenetre continue ", fenetre_continue," | ACK seules ", ack_seules)
