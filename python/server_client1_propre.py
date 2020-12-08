@@ -82,7 +82,7 @@ def main():
     print("We are connected")
 
     #DEBUG
-    debut= time.time()
+    temps_debut= time.time()
 
     """
     --------------------
@@ -176,7 +176,7 @@ def main():
     time.sleep(0.05) #
     sock_data.sendto("FIN".encode(), address_client)
     #DEBUG
-    temps = time.time()-debut
+    temps = time.time()-temps_debut
     print("Debit :",size,temps,size/temps)
     print("Retransmisions ",retransmission," | ACK_Ignores ", ack_ignore_debug, " | Fenetre continue ", fenetre_continue," | ACK seules ", ack_seules)
     print("File send")
