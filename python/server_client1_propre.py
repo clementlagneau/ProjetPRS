@@ -30,9 +30,9 @@ def main():
     #Definitions des variables globales
     timeout = 0.03
     rtt = 0.02
-    coeff_rtt = 3
+    coeff_rtt = 0.8
     aug_taille_fenetre = 2
-    taille_fenetre = 20
+    taille_fenetre = 100
     dernier_ack = 0
     nombre_client = 3000
     SIZE_BUFFER = 1024 #Taille du buffer
