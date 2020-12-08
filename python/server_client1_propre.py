@@ -154,7 +154,6 @@ def main():
                     ack_ignore_debug += 1
             else: #DEBUG
                 print("WTF BRO") #DEBUG
-            time.sleep(0.1)
         except:
             debut = True
             print("Retransmit")
