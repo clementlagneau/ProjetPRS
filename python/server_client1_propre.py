@@ -134,7 +134,7 @@ def main():
             data, address_client = sock_data.recvfrom(SIZE_BUFFER)
             if data.decode()[:3] == "ACK":
                 print("Received " + data.decode())
-                recu = int(data.decode()[3:10])
+                recu = int(data.decode()[3:9])
                 print("RECU",recu)
                 rtt = time.time() - time_file_cut[recu]  # On calcule rtt entre temps paquet validé et temps original
                 print("RTT : " + str(rtt)) # DEBUG
