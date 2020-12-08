@@ -36,6 +36,7 @@ def main():
     dernier_ack = 0
     nombre_client = 3000
     SIZE_BUFFER = 1024 #Taille du buffer
+    rtt_moy = 0.005
 
     # Variables de metriques de performances
     retransmission = 0
@@ -90,6 +91,7 @@ def main():
             sock_data.sendto((bytes(str(j).zfill(6), 'utf-8')) + file_cut[j - 1], address_client)
             time_file_cut[j] = time.time()
             #print("Send slice " + str(j) + " of total " + str(tot_seq))
+        time.sleep(rtt_moy)
 
     #On recupere le fichier
     try:
@@ -137,10 +139,11 @@ def main():
                 print("Received " + data.decode())
                 recu = int(data.decode()[3:9])
                 rtt = time.time() - time_file_cut[recu]
+                rtt_moy = (rtt_moy + rtt)/2
                 print("RTT : " + str(rtt)) # DEBUG
                 if dernier_ack < recu :
                     print("ACK > last one") #DEBUG
-                    debut = True
+                    change = True
                     delta = min(recu - dernier_ack, taille_fenetre)
                     dernier_ack = recu
                     fenetre_continue += 1
