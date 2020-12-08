@@ -32,7 +32,7 @@ def main():
     rtt = 0.02
     coeff_rtt = 1.1
     taille_fenetre_init = 30
-    aug_taille_fenetre = 2
+    aug_taille_fenetre = 4
     taille_fenetre = taille_fenetre_init
     dernier_ack = 0
     nombre_client = 3000
