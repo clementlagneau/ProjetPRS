@@ -30,7 +30,7 @@ def main():
     #Definitions des variables globales
     timeout = 0.03
     rtt = 0.02
-    coeff_rtt = 0.5
+    coeff_rtt = 0.3
     taille_fenetre_init = 30
     aug_taille_fenetre = 4
     taille_fenetre = taille_fenetre_init
@@ -142,7 +142,7 @@ def main():
                 recu = int(data.decode()[3:9])
                 rtt = time.time() - time_file_cut[recu]
                 rtt_moy = (rtt_moy + rtt)/2
-                #print("RTT : " + str(rtt),"Moy RTT",rtt_moy) # DEBUG
+                print("RTT : " + str(rtt),"Moy RTT",rtt_moy) # DEBUG
                 if dernier_ack < recu :
                     print("ACK > last one") #DEBUG
                     change = True
