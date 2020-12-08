@@ -146,13 +146,13 @@ def main():
                     delta = min(recu - dernier_ack, taille_fenetre)
                     dernier_ack = recu
                     fenetre_continue += 1
-                """elif ack_ignore > 10 :
+                    """
+                elif ack_ignore > 10 :
                     debut = True
                     dernier_ack = recu
                     time.sleep(coeff_rtt*rtt)
                     ack_ignore = 0
                     ack_ignore_debug += 1"""
-                    pass
                 else:
                     print("drop")
                     ack_ignore += 1
