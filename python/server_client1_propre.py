@@ -30,14 +30,14 @@ def main():
     #Definitions des variables globales
     timeout = 0.03
     rtt = 0.02
-    taille_fenetre_init = 50
+    taille_fenetre_init = 40
     aug_taille_fenetre = 10
     taille_fenetre = taille_fenetre_init
     dernier_ack = 0
     nombre_client = 3000
     SIZE_BUFFER = 1024 #Taille du buffer
     rtt_moy = 0.005
-    coeff_rtt = 1/(taille_fenetre*0.95)
+    coeff_rtt = 1/taille_fenetre
 
     # Variables de metriques de performances
     retransmission = 0
@@ -169,7 +169,7 @@ def main():
             taille_fenetre = taille_fenetre_init
 
     print("Send FIN")
-    time.sleep(0.01) #
+    time.sleep(0.05) #
     sock_data.sendto("FIN".encode(), address_client)
     #DEBUG
     print("Retransmisions ",retransmission," | ACK_Ignores ", ack_ignore_debug, " | Fenetre continue ", fenetre_continue," | ACK seules ", ack_seules)
