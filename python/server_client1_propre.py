@@ -155,7 +155,7 @@ def main():
                     ack_ignore_debug += 1
             else: #DEBUG
                 print("WTF BRO") #DEBUG
-        except:
+        except socket.error:
             debut = True
             print("Retransmit")
             retransmission += 1
