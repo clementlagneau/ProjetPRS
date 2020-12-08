@@ -119,17 +119,6 @@ def main():
             if dernier_ack == tot_seq:
                 last_ack = True
                 break
-            elif debut:
-                debut = False
-                ack_ignore = 0
-                fenetre_haut = min(dernier_ack+1+taille_fenetre, tot_seq)
-                sendkton(dernier_ack+1,fenetre_haut)
-            elif change:
-                change = False
-                ack_ignore = 0
-                tmp = fenetre_haut
-                fenetre_haut = min(dernier_ack+1+taille_fenetre,tot_seq)
-                sendkton(dernier_ack+1+tmp-delta,fenetre_haut)
             print("Wait ACK")
             data, address_client = sock_data.recvfrom(SIZE_BUFFER)
             if data.decode()[:3] == "ACK":
@@ -152,8 +141,18 @@ def main():
                 else:
                     ack_ignore += 1
                     ack_ignore_debug += 1
-            else: #DEBUG
-                print("WTF BRO") #DEBUG
+            elif debut:
+                debut = False
+                ack_ignore = 0
+                fenetre_haut = min(dernier_ack+1+taille_fenetre, tot_seq)
+                sendkton(dernier_ack+1,fenetre_haut)
+            elif change:
+                change = False
+                ack_ignore = 0
+                tmp = fenetre_haut
+                fenetre_haut = min(dernier_ack+1+taille_fenetre,tot_seq)
+                sendkton(dernier_ack+1+tmp-delta,fenetre_haut)
+
         except:
             debut = True
             print("Retransmit")
