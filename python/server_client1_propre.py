@@ -30,7 +30,7 @@ def main():
     #Definitions des variables globales
     timeout = 0.03
     rtt = 0.02
-    coeff_rtt = 1.1
+    coeff_rtt = 0.9
     taille_fenetre_init = 30
     aug_taille_fenetre = 4
     taille_fenetre = taille_fenetre_init
@@ -152,7 +152,7 @@ def main():
                 elif ack_ignore > 10 :
                     ack_ignore = 0
                     ack_ignore_debug += 1
-                    sendkton(recu+1,recu+1)
+                    sendkton(recu+1,recu+1) #On met pas a jour dernier c'est normal
                     time.sleep(0.0002)
                     ack_seules += 1
                 else:
