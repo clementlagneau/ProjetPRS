@@ -149,16 +149,17 @@ def main():
                     delta = min(recu - dernier_ack, taille_fenetre)
                     dernier_ack = recu
                     fenetre_continue += 1
+                    """ 
                 elif ack_ignore > 20 :
                     ack_ignore = 0
                     ack_ignore_debug += 1
                     #sendkton(recu+1,recu+1) #On met pas a jour dernier c'est normal
                     time.sleep(0.0002)
-                    #ack_seules += 1
+                    ack_seules += 1
                 else:
                     #print("drop")
                     ack_ignore += 1
-                    ack_ignore_debug += 1
+                    ack_ignore_debug += 1"""
             else: #DEBUG
                 print("WTF BRO") #DEBUG
         except socket.error:
