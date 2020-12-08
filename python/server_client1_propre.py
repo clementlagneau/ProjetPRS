@@ -158,7 +158,7 @@ def main():
         except:
             debut = True
             print("Retransmit")
-            retransmission += 2
+            retransmission += 1
 
     print("Send FIN")
     sock_data.sendto("FIN".encode(), address_client)
