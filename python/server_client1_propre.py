@@ -142,7 +142,7 @@ def main():
                 recu = int(data.decode()[3:9])
                 rtt = time.time() - time_file_cut[recu]
                 rtt_moy = (rtt_moy + rtt)/2
-                print("RTT : " + str(rtt),"Moy RTT",rtt_moy) # DEBUG
+                #print("RTT : " + str(rtt),"Moy RTT",rtt_moy) # DEBUG
                 if dernier_ack < recu :
                     print("ACK > last one") #DEBUG
                     change = True
