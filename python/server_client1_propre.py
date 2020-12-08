@@ -92,7 +92,6 @@ def main():
             sock_data.sendto((bytes(str(j).zfill(6), 'utf-8')) + file_cut[j - 1], address_client)
             time_file_cut[j] = time.time()
             print("Send slice " + str(j) + " of total " + str(tot_seq))
-        time.sleep(0.001)
         return(n)
 
     #On recupere le fichier
@@ -149,13 +148,10 @@ def main():
                     delta = min(recu - dernier_ack, taille_fenetre)
                     dernier_ack = recu
                     fenetre_continue += 1
-                    """
                 elif ack_ignore > 10 :
-                    debut = True
-                    dernier_ack = recu
-                    time.sleep(coeff_rtt*rtt)
                     ack_ignore = 0
-                    ack_ignore_debug += 1"""
+                    ack_ignore_debug += 1
+                    time.sleep(0.004)
                 else:
                     print("drop")
                     ack_ignore += 1
