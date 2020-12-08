@@ -149,7 +149,7 @@ def main():
                 elif ack_ignore > 4 :
                     debut = True
                     dernier_ack = recu
-                    time.sleep(0.001)
+                    time.sleep(0.05)
                     ack_ignore = 0
                     ack_ignore_debug += 1
                 else:
