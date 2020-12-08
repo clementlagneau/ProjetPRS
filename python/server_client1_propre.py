@@ -91,7 +91,7 @@ def main():
             sock_data.sendto((bytes(str(j).zfill(6), 'utf-8')) + file_cut[j - 1], address_client)
             time_file_cut[j] = time.time()
             print("Send slice " + str(j) + " of total " + str(tot_seq))
-        dernier_envoyer = n
+        return(n)
 
     #On recupere le fichier
     try:
@@ -126,12 +126,12 @@ def main():
                 debut = False
                 ack_ignore = 0
                 fenetre_haut = min(dernier_ack+1+taille_fenetre, tot_seq)
-                sendkton(dernier_ack+1,fenetre_haut)
+                dernier_envoyer = sendkton(dernier_ack+1,fenetre_haut)
             elif change:
                 change = False
                 ack_ignore = 0
                 fenetre_haut = min(dernier_ack+1+taille_fenetre,tot_seq)
-                sendkton(dernier_envoyer,fenetre_haut)
+                dernier_envoyer = sendkton(dernier_envoyer,fenetre_haut)
             print("Wait ACK")
             data, address_client = sock_data.recvfrom(SIZE_BUFFER)
             if data.decode()[:3] == "ACK":
