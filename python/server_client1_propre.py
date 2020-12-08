@@ -152,7 +152,7 @@ def main():
                 elif ack_ignore > 10 :
                     ack_ignore = 0
                     ack_ignore_debug += 1
-                    dernier = sendkton(recu+1,recu+1)
+                    sendkton(recu+1,recu+1)
                     time.sleep(0.0002)
                     ack_seules += 1
                 else:
