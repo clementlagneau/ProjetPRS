@@ -152,6 +152,7 @@ def main():
                     time.sleep(coeff_rtt*rtt)
                     ack_ignore = 0
                     ack_ignore_debug += 1"""
+                    pass
                 else:
                     print("drop")
                     ack_ignore += 1
