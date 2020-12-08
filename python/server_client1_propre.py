@@ -31,8 +31,9 @@ def main():
     timeout = 0.03
     rtt = 0.02
     coeff_rtt = 0.8
+    taille_fenetre_init = 30
     aug_taille_fenetre = 2
-    taille_fenetre = 30
+    taille_fenetre = taille_fenetre_init
     dernier_ack = 0
     nombre_client = 3000
     SIZE_BUFFER = 1024 #Taille du buffer
@@ -132,6 +133,7 @@ def main():
                 ack_ignore = 0
                 fenetre_haut = min(dernier_ack+1+taille_fenetre,tot_seq)
                 dernier_envoyer = sendkton(dernier_envoyer,fenetre_haut)
+                taille_fenetre += aug_taille_fenetre
             print("Wait ACK")
             data, address_client = sock_data.recvfrom(SIZE_BUFFER)
             if data.decode()[:3] == "ACK":
@@ -163,6 +165,7 @@ def main():
             debut = True
             print("Retransmit")
             retransmission += 1
+            taille_fenetre = taille_fenetre_init
 
     print("Send FIN")
     sock_data.sendto("FIN".encode(), address_client)
