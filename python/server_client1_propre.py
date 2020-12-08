@@ -118,7 +118,7 @@ def main():
     change = False #Gestion dynamic window
     debut = True #Gestion retransmission
     while (not last_ack):
-        sock_data.settimeout(coeff_rtt*rtt)
+        sock_data.settimeout(coeff_rtt*rtt_moy)
         try:
             if dernier_ack == tot_seq:
                 last_ack = True
