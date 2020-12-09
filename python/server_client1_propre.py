@@ -30,7 +30,7 @@ def main():
     #Definitions des variables globales
     timeout = 0.03
     rtt = 0.02
-    taille_fenetre_init = 40
+    taille_fenetre_init = 60
     aug_taille_fenetre = 10
     taille_fenetre = taille_fenetre_init
     dernier_ack = 0
