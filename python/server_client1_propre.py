@@ -142,7 +142,7 @@ def main():
                 taille_fenetre = min(taille_fenetre+aug_taille_fenetre,100)
             elif retran:
                 retran = False
-                dernier_envoyer = sendkton(dernier_ack+1,dernier_ack+10)
+                dernier_envoyer = sendkton(dernier_ack+1,dernier_ack+20)
             #print("Wait ACK")
             data, address_client = sock_data.recvfrom(SIZE_BUFFER)
             if data.decode()[:3] == "ACK":
