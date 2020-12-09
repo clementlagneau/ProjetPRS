@@ -122,6 +122,7 @@ def main():
     last_ack = False #Gestion du while
     change = False #Gestion dynamic window
     debut = True #Gestion retransmission
+    retran = False
     while (not last_ack):
         sock_data.settimeout(coeff_rtt*rtt_moy)
         try:
@@ -139,6 +140,9 @@ def main():
                 fenetre_haut = min(dernier_ack+1+taille_fenetre,tot_seq)
                 dernier_envoyer = sendkton(dernier_envoyer,fenetre_haut)
                 taille_fenetre = min(taille_fenetre+aug_taille_fenetre,100)
+            elif retran:
+                retran = False
+                dernier_envoyer = sendkton(dernier_ack+1,dernier_ack+10)
             #print("Wait ACK")
             data, address_client = sock_data.recvfrom(SIZE_BUFFER)
             if data.decode()[:3] == "ACK":
@@ -167,7 +171,8 @@ def main():
             else: #DEBUG
                 print("WTF BRO") #DEBUG
         except socket.error:
-            debut = True
+            debut = False
+            retran = True
             #print("Retransmit")
             retransmission += 1
             taille_fenetre = taille_fenetre_init
