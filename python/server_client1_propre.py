@@ -30,7 +30,7 @@ def main():
     #Definitions des variables globales
     timeout = 0.03
     rtt = 0.02
-    taille_fenetre_init = 40
+    taille_fenetre_init = 20
     aug_taille_fenetre = 10
     taille_fenetre = taille_fenetre_init
     dernier_ack = 0
@@ -93,8 +93,9 @@ def main():
     def sendkton(k,n):
         #print("Send slice " + str(k) + "to" + str(n))
         for j in range(k, n + 1):
-            sock_data.sendto((bytes(str(j).zfill(6), 'utf-8')) + file_cut[j - 1], address_client)
-            time_file_cut[j] = time.time()
+            for _ in range(2)
+                sock_data.sendto((bytes(str(j).zfill(6), 'utf-8')) + file_cut[j - 1], address_client)
+                time_file_cut[j] = time.time()
             #print("Send slice " + str(j) + " of total " + str(tot_seq))
         return(n)
 
