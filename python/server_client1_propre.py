@@ -35,7 +35,7 @@ def main():
     taille_fenetre = taille_fenetre_init
     dernier_ack = 0
     nombre_client = 3000
-    SIZE_BUFFER = 3000 #Taille du buffer
+    SIZE_BUFFER = 5000 #Taille du buffer
     rtt_moy = 0.005
     coeff_rtt = 1/taille_fenetre
 
