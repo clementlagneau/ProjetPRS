@@ -73,6 +73,11 @@ def main():
             data_address = ('0.0.0.0', port_data)
             sock_data.bind(data_address)
 
+            #define IP_DF 0x4000   /* dont fragment flag */
+            #IP_PMTUDISC_DO = 2
+            #IP_MTU_DISCOVER = 10
+            sock_data.setsockopt(IPPROTO_IP,12,0)
+
             sock_init.sendto(("SYN-ACK" + str(port_data)).encode(), address_client)
             print("SYN received, just sent SYN-ACK"+str(port_data))
             data, address_client = sock_init.recvfrom(SIZE_BUFFER)
