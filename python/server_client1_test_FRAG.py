@@ -8,7 +8,6 @@ import os
 import time
 import sys
 import copy
-import IN
 
 def main():
     """
