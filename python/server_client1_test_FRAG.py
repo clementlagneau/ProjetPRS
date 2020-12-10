@@ -78,8 +78,8 @@ def main():
             #IP_PMTUDISC_DO = 2
             #IP_MTU_DISCOVER = 10
             #IPPROTO_FRAGMENT = 44
-            #sock_data.setsockopt(IPPROTO_IP,12,0)
-            sock_data.setsockopt(socket.IPPROTO_IP, IN.IP_MTU_DISCOVER, IN.IP_PMTUDISC_DO)
+            sock_data.setsockopt(IPPROTO_IP,10,2)
+            #sock_data.setsockopt(socket.IPPROTO_IP, IN.IP_MTU_DISCOVER, IN.IP_PMTUDISC_DO)
 
             sock_init.sendto(("SYN-ACK" + str(port_data)).encode(), address_client)
             print("SYN received, just sent SYN-ACK"+str(port_data))
