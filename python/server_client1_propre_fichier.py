@@ -37,7 +37,7 @@ def main():
     nombre_client = 3000
     SIZE_BUFFER = 1024 #Taille du buffer
     rtt_moy = 0.005
-    coeff_rtt = 1/(taille_fenetre*4)
+    coeff_rtt = 1/(taille_fenetre*10)
 
     # Variables de metriques de performances
     retransmission = 0
