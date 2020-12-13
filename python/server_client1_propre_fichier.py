@@ -137,8 +137,9 @@ def main():
                     change = False
                     ack_ignore = 0
                     fenetre_haut = min(dernier_ack+1+taille_fenetre,tot_seq)
+                    taille_fenetre = min(taille_fenetre + aug_taille_fenetre, 100)
+                    coeff_rtt = 1 / taille_fenetre
                     dernier_envoyer = sendkton(dernier_envoyer,fenetre_haut)
-                    taille_fenetre = min(taille_fenetre+aug_taille_fenetre,100)
                 #print("Wait ACK")
                 data, address_client = sock_data.recvfrom(SIZE_BUFFER)
                 if data.decode()[:3] == "ACK":
