@@ -37,7 +37,7 @@ def main():
     nombre_client = 3000
     SIZE_BUFFER = 1024 #Taille du buffer
     rtt_moy = 0.005
-    coeff_rtt = 1/taille_fenetre
+    coeff_rtt = 1/(taille_fenetre*4)
 
     # Variables de metriques de performances
     retransmission = 0
@@ -138,7 +138,6 @@ def main():
                     ack_ignore = 0
                     fenetre_haut = min(dernier_ack+1+taille_fenetre,tot_seq)
                     taille_fenetre = min(taille_fenetre + aug_taille_fenetre, 100)
-                    coeff_rtt = 1 / taille_fenetre
                     dernier_envoyer = sendkton(dernier_envoyer,fenetre_haut)
                 #print("Wait ACK")
                 data, address_client = sock_data.recvfrom(SIZE_BUFFER)
