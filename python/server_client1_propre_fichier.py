@@ -114,7 +114,7 @@ def main():
     with open(data.decode()[:-1], "rb") as file:
         # On calcul le nombre de sequences necessaires
         file_cut = []
-        time_file_cut = [None for x in range(tot_seq + 1)]  # On initialise le tableau qui va stocker les temps d'envoi pour calculer le RTT
+        time_file_cut = [time.time() for x in range(tot_seq + 1)]  # On initialise le tableau qui va stocker les temps d'envoi pour calculer le RTT
         for k in range(tot_seq):
             file_cut.append((file.read(SIZE_BUFFER)))
         print("len file_cut", len(file_cut)) #DEBUG
