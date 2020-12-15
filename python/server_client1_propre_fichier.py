@@ -149,7 +149,7 @@ def main():
                 if data.decode()[:3] == "ACK":
                     #print("Received " + data.decode())
                     recu = int(data.decode()[3:9])
-                    if rrt[recu] != None:
+                    if time_file_cut[recu] != None:
                         rtt = time.time() - time_file_cut[recu]
                     rtt_moy = (rtt_moy + rtt)/2
                     #print("RTT : " + str(rtt),"Moy RTT",rtt_moy) # DEBUG
