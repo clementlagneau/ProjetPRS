@@ -8,7 +8,6 @@ import os
 import time
 import sys
 import copy
-from multiprocessing import Process
 
 def main():
     """
@@ -133,26 +132,19 @@ def main():
                     debut = False
                     ack_ignore = 0
                     fenetre_haut = min(dernier_ack+1+taille_fenetre, tot_seq)
-                    p = Process(target=sendkton, args=(dernier_ack+1,fenetre_haut))
-                    p.start()
-                    dernier_envoyer = fenetre_haut
-                    p.join()
+                    dernier_envoyer = sendkton(dernier_ack+1,fenetre_haut)
                 elif change:
                     change = False
                     ack_ignore = 0
                     fenetre_haut = min(dernier_ack+1+taille_fenetre,tot_seq)
                     taille_fenetre = min(taille_fenetre + aug_taille_fenetre, 100)
-                    p = Process(target=sendkton, args=(dernier_envoyer,fenetre_haut))
-                    p.start()
-                    dernier_envoyer = fenetre_haut
-                    p.join()
+                    dernier_envoyer = sendkton(dernier_envoyer,fenetre_haut)
                 #print("Wait ACK")
                 data, address_client = sock_data.recvfrom(SIZE_BUFFER)
                 if data.decode()[:3] == "ACK":
                     #print("Received " + data.decode())
                     recu = int(data.decode()[3:9])
-                    if time_file_cut[recu] != None:
-                        rtt = time.time() - time_file_cut[recu]
+                    rtt = time.time() - time_file_cut[recu]
                     rtt_moy = (rtt_moy + rtt)/2
                     #print("RTT : " + str(rtt),"Moy RTT",rtt_moy) # DEBUG
                     if dernier_ack < recu :
