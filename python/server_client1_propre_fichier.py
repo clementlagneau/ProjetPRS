@@ -136,6 +136,7 @@ def main():
                     p = Process(target=sendkton, args=(dernier_ack+1,fenetre_haut))
                     p.start()
                     dernier_envoyer = fenetre_haut
+                    p.join()
                 elif change:
                     change = False
                     ack_ignore = 0
@@ -144,6 +145,7 @@ def main():
                     p = Process(target=sendkton, args=(dernier_envoyer,fenetre_haut))
                     p.start()
                     dernier_envoyer = fenetre_haut
+                    p.join()
                 #print("Wait ACK")
                 data, address_client = sock_data.recvfrom(SIZE_BUFFER)
                 if data.decode()[:3] == "ACK":
