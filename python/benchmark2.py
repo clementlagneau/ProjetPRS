@@ -35,6 +35,6 @@ if __name__ == '__main__':
         file.writelines("k" + ";" + "temps")
     for k in range(1,100,1):
         for j in range(1,100,1):
-            t = temps("log_"+str(k)+"_"+str(j)".txt")
+            t = temps("log_"+str(k)+"_"+str(j)+".txt")
             with open('res.txt','a') as file:
                 file.write(str(k)+";"+str(j)+";"+str(t)+"\n")
