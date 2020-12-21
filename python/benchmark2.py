@@ -11,7 +11,7 @@ def f(k,j):
 def g(k,j):
     b = str(k)
     c = str(j)
-    subprocess.call(["/bin/bash","-c","(time ./client1 134.214.202.27 1234 out.txt 0) 2> log_"+b+"_"+c".txt"])
+    subprocess.call(["/bin/bash","-c","(time ./client1 134.214.202.27 1234 out.txt 0) 2> log_"+b+"_"+c+".txt"])
 
 def temps(path):
     with open(path,'r') as file:
