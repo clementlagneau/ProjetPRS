@@ -3,14 +3,14 @@ import subprocess
 import os
 import time
 
-def f(temp):
-    b = str(temp[0])
-    c = str(temp[1])
+def f(k,j):
+    b = str(k)
+    c = str(j)
     os.system("python3 server_client1_param.py 1234 "+b+" "+c)
 
 def g(k,j):
-    b = str(temp[0])
-    c = str(temp[1])
+    b = str(k)
+    c = str(j)
     subprocess.call(["/bin/bash","-c","(time ./client1 134.214.202.27 1234 out.txt 0) 2> log_"+b+"_"+c+".txt"])
 
 def temps(path):
@@ -23,9 +23,8 @@ if __name__ == '__main__':
     for k in range(1,100,1):
         for l in range(1,100,1):
             print('avance 1')
-            temp = (k,j)
-            p = Process(target=f, args=(temp,))
-            h = Process(target=g, args=(temp,))
+            p = Process(target=f, args=((k,l),))
+            h = Process(target=g, args=((k,l),))
             p.start()
             time.sleep(1)
             h.start()
