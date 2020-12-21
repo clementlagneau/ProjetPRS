@@ -28,7 +28,7 @@ if __name__ == '__main__':
         p.join()
         h.join()
 
-    with open('res.txt', 'a') as file:
+    with open('res.txt', 'w') as file:
         file.writelines("k" + ";" + "temps")
     for k in range(1,100,1):
         t = temps("log_"+str(k)+".txt")
