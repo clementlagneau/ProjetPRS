@@ -3,13 +3,15 @@ import subprocess
 import os
 import time
 
-def f(k):
+def f(k,j):
     b = str(k)
-    os.system("python3 server_client1_param.py 1234 "+b)
+    c = str(j)
+    os.system("python3 server_client1_param.py 1234 "+b+" "+c)
 
-def g(a):
-    b = str(a)
-    subprocess.call(["/bin/bash","-c","(time ./client1 134.214.202.236 1234 out.txt 0) 2> log_"+b+".txt"])
+def g(k,j):
+    b = str(k)
+    c = str(j)
+    subprocess.call(["/bin/bash","-c","(time ./client1 134.214.202.27 1234 out.txt 0) 2> log_"+b+"_"+c".txt"])
 
 def temps(path):
     with open(path,'r') as file:
@@ -19,18 +21,20 @@ def temps(path):
 
 if __name__ == '__main__':
     for k in range(1,100,1):
-        print("k vaut",k)
-        p = Process(target=f, args=(k,))
-        h = Process(target=g, args=(k,))
-        p.start()
-        time.sleep(1)
-        h.start()
-        p.join()
-        h.join()
+        for l in range(1,100,1):
+            print('avance 1')
+            p = Process(target=f, args=((k,j),)
+            h = Process(target=g, args=((k,j),)
+            p.start()
+            time.sleep(1)
+            h.start()
+            p.join()
+            h.join()
 
     with open('res.txt', 'w') as file:
         file.writelines("k" + ";" + "temps")
     for k in range(1,100,1):
-        t = temps("log_"+str(k)+".txt")
-        with open('res.txt','a') as file:
-            file.writelines(k+";"+str(t))
+        for j in range(1,100,1):
+            t = temps("log_"+str(k)+"_"+str(j)".txt")
+            with open('res.txt','a') as file:
+                file.write(str(k)+";"+str(j)+";"+str(t)+"\n")
