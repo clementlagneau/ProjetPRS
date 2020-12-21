@@ -23,8 +23,8 @@ if __name__ == '__main__':
     for k in range(1,100,1):
         for l in range(1,100,1):
             print('avance 1')
-            p = Process(target=f, args=((k,j),)
-            h = Process(target=g, args=((k,j),)
+            p = Process(target=f, args=(k,j)
+            h = Process(target=g, args=(k,j)
             p.start()
             time.sleep(1)
             h.start()
