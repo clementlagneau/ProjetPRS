@@ -146,7 +146,7 @@ def main():
                 if data.decode()[:3] == "ACK":
                     #print("Received " + data.decode())
                     recu = int(data.decode()[3:9])
-                    rtt = time.time() - time_file_cut[recu]
+                    rtt = time.time() - time_file_cut[recu] #DEBUG Mettre apres dernier_ack < recu en vrai
                     rtt_moy = (rtt_moy + rtt)/2
                     #print("RTT : " + str(rtt),"Moy RTT",rtt_moy) # DEBUG
                     if dernier_ack < recu :
