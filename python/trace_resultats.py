@@ -11,7 +11,7 @@ with open('res.txt','r') as file:
         t = line.split(';')
         X.append(int(t[0]))
         Y.append(int(t[1]))
-        Z.append(int(t[2]))
+        Z.append(int(t[2].replace('\n','')))
 
 # Tracé du résultat en 3D
 fig = plt.figure()
