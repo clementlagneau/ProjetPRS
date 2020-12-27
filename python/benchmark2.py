@@ -33,9 +33,13 @@ if __name__ == '__main__':
             h.join()
 
     with open('res.txt', 'w') as file:
-        file.writelines("k" + ";" + "temps")
+        file.writelines("k" + ";" + "j" + ";" + "temps"+"\n")
     for k in range(1,100,1):
         for j in range(1,100,1):
-            t = temps("log_"+str(k)+"_"+str(j)+".txt")
-            with open('res.txt','a') as file:
-                file.write(str(k)+";"+str(j)+";"+str(t)+"\n")
+            try:
+                t = temps("log_"+str(k)+"_"+str(j)+".txt")
+                with open('res.txt', 'a') as file:
+                    file.write(str(k) + ";" + str(j) + ";" + str(t) + "\n")
+            except Exception as inst:
+                print(inst)
+
