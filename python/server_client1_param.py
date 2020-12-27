@@ -95,8 +95,8 @@ def main():
     def sendkton(k,n,time_file_cut):
         #print("Send slice " + str(k) + "to" + str(n))
         for j in range(k, n + 1):
-            sock_data.sendto((bytes(str(j).zfill(6), 'utf-8')) + file_cut[j - 1], address_client)
             time_file_cut[j] = time.time()
+            sock_data.sendto((bytes(str(j).zfill(6), 'utf-8')) + file_cut[j - 1], address_client)
             #print("Send slice " + str(j) + " of total " + str(tot_seq))
         return(n)
 
