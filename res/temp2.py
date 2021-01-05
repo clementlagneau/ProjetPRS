@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d  # Fonction pour la 3D
-import numpy as np
+#import numpy as np
 
 # Tableau pour les 3 axes
 X = []
