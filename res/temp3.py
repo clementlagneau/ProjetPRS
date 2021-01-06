@@ -4,6 +4,7 @@ max_3 = 1000
 
 with open('res.txt','r') as file:
     for line in file.readlines():
+        t = line.split(';')
         if float(t[2].replace("\n","")) < max_3:
             max_1 = float(t[0])
             max_2 = float(t[1])
