@@ -21,10 +21,8 @@ def main():
     ------------------------
     """
     # Verifications des inputs
-    if len(sys.argv) == 4 and 1000 <= int(sys.argv[1]) <= 9999 :
+    if len(sys.argv) == 2 and 1000 <= int(sys.argv[1]) <= 9999 :
       port = int(sys.argv[1])
-      param = int(sys.argv[2]) #taille fenetre init
-      param2 = int(sys.argv[3]) #augmentation fenetre
     else :
       print("Utilisation : /server Nport")
       return(-1)
@@ -32,8 +30,8 @@ def main():
     #Definitions des variables globales
     timeout = 0.03
     rtt = 0.02
-    taille_fenetre_init = param
-    aug_taille_fenetre = param2
+    taille_fenetre_init = 42
+    aug_taille_fenetre = 20
     taille_fenetre = taille_fenetre_init
     dernier_ack = 0
     nombre_client = 3000
