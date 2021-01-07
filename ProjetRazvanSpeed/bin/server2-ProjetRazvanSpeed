@@ -43,9 +43,9 @@ def main():
             fenetre_continue = 0
             ack_seules = 0
 
-            print("We are in a new thread for a new client on port {}".format(port_data))
+            print("We are in a new thread for a new client on port {}".format(self.port_data))
             sock_data = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            data_address = ('0.0.0.0', port_data)
+            data_address = ('0.0.0.0', self.port_data)
             sock_data.bind(data_address)
 
             timeout = 0.002
