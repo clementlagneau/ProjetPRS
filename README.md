@@ -1,12 +1,11 @@
 # ProjetPRS
-Projet PRS implémentation TCP over UDP
+This is an academic project.
+This is an implementation of a sort TCP over UDP.
 
-#Utilisation
-make
-./server 2345 
-./client 127.0.0.1 2345
+# Files
+You have all finals files in ProjetRazvanSpeed/
+You have all testing files in python/
+You have the two testing clients in projet/
 
-#Principe
-SYN
-SYN ACK, création d'une socket sur un autre port
-ACK
+# Contributors
+Hugo Courte - Clement Lagneau

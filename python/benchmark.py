@@ -7,7 +7,7 @@ def f(n):
     subprocess.call(['/bin/bash', '-c',"python3 server_test.py 1234"])
 
 def g(n):
-    n.send(subprocess.check_call(['/bin/bash', '-c',"time ./client1 134.214.202.236 1234 chat.jpg | grep real >> res.txt "]))
+    n.send(subprocess.check_call(['/bin/bash', '-c',"time ./client1 [IP] 1234 chat.jpg | grep real >> res.txt "]))
     n.close()
 
 if __name__ == '__main__':
